@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Heianorsk · Speak real Norwegian</title>
+<meta name="description" content="Speak real Norwegian out loud. Short real-life scenes with stars for your pronunciation, scored on your phone. In Spanish, English, Polish, Ukrainian, Lithuanian and Somali.">
+<meta property="og:title" content="Heianorsk">
+<meta property="og:description" content="Learn what people in Norway actually say.">
+<meta property="og:image" content="https://heianorsk.ried.no/img/social.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&display=swap">
+<style>
+:root { --accent: #6B4EFF; --bg: #F3F0FF; --ink: #1C1433; --muted: #5B4F80; --lime: #C6F432; --line: #DDD5FF; --red: #E0436B;
+  --display: "Archivo Black", "Arial Black", system-ui, sans-serif; --body: "Archivo", system-ui, -apple-system, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.5; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left)); }
+header.hero { background: var(--accent); color: #fff; padding: 64px 0 72px; overflow: hidden; }
+.hero .wrap { display: grid; gap: 40px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; }
+@media (max-width: 760px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand img { width: 64px; height: 64px; border-radius: 16px; }
+.brand b { font-family: var(--display); font-size: 34px; font-weight: 400; }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 22px 0 18px; text-wrap: balance; }
+.jab { min-height: 92px; display: grid; gap: 10px; justify-items: start; }
+.nonsense { font-size: 18px; opacity: .85; position: relative; }
+.nonsense::after { content: ""; position: absolute; left: 0; right: 0; top: 54%; height: 3px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)); transition: transform .45s ease-out; }
+.real { background: var(--lime); color: var(--ink); font-family: var(--display); font-size: 22px; padding: 6px 16px; border-radius: 99px;
+  transform: rotate(-3deg) scale(var(--p, 0)); transition: transform .45s cubic-bezier(.3,1.7,.5,1); }
+.lead { font-size: 19px; max-width: 34ch; opacity: .95; }
+.soon { display: inline-block; margin-top: 22px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); padding: 10px 16px; border-radius: 14px; font-weight: 600; }
+.shots { display: flex; gap: 14px; justify-content: center; }
+.shots img { width: 46%; max-width: 210px; border-radius: 22px; border: 6px solid var(--ink); box-shadow: 0 18px 40px rgba(0,0,0,.25); }
+.shots img:last-child { transform: translateY(30px) rotate(3deg); }
+.shots img:first-child { transform: rotate(-3deg); }
+section { padding: 64px 0 8px; }
+h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 18px; text-wrap: balance; }
+.grid3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 20px; }
+.card b { display: block; font-size: 18px; margin-bottom: 4px; }
+.card p { margin: 0; color: var(--muted); }
+.step { font-family: var(--display); color: var(--accent); font-size: 14px; letter-spacing: .06em; }
+.samples { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+.sample { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; }
+.sample button { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; font-size: 18px; cursor: pointer; }
+.sample button:focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; }
+.sample .no { font-weight: 700; }
+.sample .who { color: var(--muted); font-size: 14px; }
+.logos { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.logos img { width: 100%; border-radius: 14px; box-shadow: 0 4px 14px rgba(28,20,51,.12); }
+.langs { display: flex; flex-wrap: wrap; gap: 8px; }
+.langs span { background: #fff; border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; font-weight: 600; }
+footer { margin-top: 64px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+footer a { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div>
+      <div class="brand"><img src="img/icon.png" alt=""><b>heianorsk</b></div>
+      <h1>Learn what people in Norway actually say.</h1>
+      <div class="jab" aria-live="polite"><span class="nonsense" id="non"></span><span class="real" id="real"></span></div>
+      <p class="lead">Short real-life scenes: the till, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
+      <span class="soon">Coming soon to Google Play and the App Store</span>
+    </div>
+    <div class="shots"><img src="img/today.jpg" alt="The Today tab with the next scene"><img src="img/scene.jpg" alt="A scene with its character card"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section>
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="card"><span class="step">1 · LISTEN</span><b>A real situation</b><p>The cashier asks about a bag, the bus driver about your stop, the neighbour about the dugnad. Real Norwegian voices, local dialects included.</p></div>
+      <div class="card"><span class="step">2 · SPEAK</span><b>Say your line out loud</b><p>No typing, no tapping words in order. You answer like you would at the till tomorrow morning.</p></div>
+      <div class="card"><span class="step">3 · STARS</span><b>Scored on your phone</b><p>Your pronunciation is checked on the device, word by word. Tricky sounds like takk/tak and ny/ni get a tip. Your voice never leaves the phone.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Listen to a few lines</h2>
+    <div class="samples" id="samples"></div>
+  </section>
+
+  <section>
+    <h2>A Norway that looks familiar</h2>
+    <p style="color:var(--muted);max-width:60ch;margin-top:-6px">Shops and apps in the scenes are friendly parodies, so you can laugh at the till before you get there.</p>
+    <div class="logos">
+      <img src="img/rema-1100.png" alt="Rema 1100"><img src="img/eurokrise.png" alt="Eurokrise"><img src="img/kvikk-kat.png" alt="Kvikk Kat">
+      <img src="img/donaldtrumpf-kort.png" alt="DonaldTrumpf card"><img src="img/ikkea.png" alt="IKKEA"><img src="img/tindr.png" alt="Tindr">
+    </div>
+  </section>
+
+  <section>
+    <h2>Six languages to learn from</h2>
+    <div class="langs"><span>Español</span><span>English</span><span>Polski</span><span>Українська</span><span>Lietuvių</span><span>Soomaali</span></div>
+    <p style="color:var(--muted);max-width:60ch">250 scenes from your first "hei" to explaining yourself at work, plus a story about a very strange black cat in Tromsø.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">Heianorsk · made in Norway by an immigrant, for immigrants · <a href="privacy.html">Privacy</a> · <a href="https://github.com/eried/heianorsk/issues">Feedback</a></div>
+</footer>
+
+<script>
+const R = [
+  ['Does a toothbrush have feelings?', 'Hvordan går det?'],
+  ['Excuse me, I am an apple.', 'Unnskyld, hvor er toalettet?'],
+  ['The bear drinks milk.', 'Kaffe med melk, takk.'],
+  ['I am eating bread and crying on the floor.', 'Takk for maten!'],
+  ['The man eats ice cream with mustard.', 'Pølse med sennep, takk.'],
+];
+const non = document.getElementById('non'), real = document.getElementById('real');
+let i = 0;
+function round() {
+  const [a, b] = R[i++ % R.length];
+  non.style.setProperty('--s', 0); real.style.setProperty('--p', 0);
+  non.textContent = '«' + a + '»'; real.textContent = b;
+  setTimeout(() => non.style.setProperty('--s', 1), 900);
+  setTimeout(() => real.style.setProperty('--p', 1), 1400);
+  setTimeout(round, 4200);
+}
+round();
+const S = [
+  ['audio/hei-r1.m4a', 'Hei! Hvordan går det?', 'Your neighbour, level 0'],
+  ['audio/hei-l1.m4a', 'Hei!', 'You, level 0'],
+  ['audio/katten-1-hva-var-det-l1.m4a', 'Aurelia! Er du våken?', 'Patrick, the cat story'],
+  ['audio/katten-1-hva-var-det-r1.m4a', 'Nå er jeg det. Hva?', 'Aurelia, the cat story'],
+];
+const box = document.getElementById('samples');
+let playing = null;
+for (const [src, no, who] of S) {
+  const el = document.createElement('div'); el.className = 'sample';
+  el.innerHTML = `<button type="button" aria-label="Play">▶</button><div><div class="no"></div><div class="who"></div></div>`;
+  el.querySelector('.no').textContent = no; el.querySelector('.who').textContent = who;
+  const a = new Audio(src), b = el.querySelector('button');
+  b.onclick = () => { if (playing && playing !== a) playing.pause(); a.currentTime = 0; a.play(); playing = a; };
+  box.appendChild(el);
+}
+</script>
+</body>
+</html>
