@@ -128,6 +128,45 @@ h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
   .ln .no { font-size: 19px; }
 }
 
+/* book vs norway, small table in the hero */
+.says { margin: 26px 0 0; border-collapse: collapse; font-size: 16px; line-height: 1.3; width: 100%; max-width: 520px; }
+.says th { text-align: left; font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .65; padding: 0 12px 6px 0; }
+.says td { padding: 9px 12px 9px 0; border-top: 1px solid rgba(255,255,255,.18); vertical-align: top; }
+.says .bk { opacity: .55; text-decoration: line-through; text-decoration-color: var(--red); text-decoration-thickness: 2px; width: 55%; }
+.says .rl { font-weight: 800; }
+@media (max-width: 520px) {
+  .says thead { display: none; }
+  .says, .says tbody, .says tr, .says td { display: block; width: auto; }
+  .says tr { padding: 8px 0; border-top: 1px solid rgba(255,255,255,.18); }
+  .says td { border: 0; padding: 0; }
+  .says .rl::before { content: "\2192\00a0"; opacity: .6; font-weight: 400; }
+}
+
+/* book vs street: flip cards */
+.street { padding-top: 90px; padding-bottom: 20px; }
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px 24px; margin-top: 52px; }
+.flip { font: inherit; color: inherit; text-align: left; background: none; border: 0; padding: 0; cursor: pointer; perspective: 1100px; display: grid; transform: rotate(var(--r, 0deg)); }
+.flip:nth-child(3n+1) { --r: -.7deg; } .flip:nth-child(3n+2) { --r: .6deg; }
+.flip:focus-visible { outline: 3px solid var(--cta); outline-offset: 8px; }
+.flip .in { display: grid; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.3,1.25,.5,1); }
+.flip[aria-pressed="true"] .in { transform: rotateY(180deg); }
+.face { grid-area: 1 / 1; display: flex; flex-direction: column; gap: 6px; min-height: 200px; padding: 20px 18px 16px; border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--ink);
+  -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.front { background: #fff; }
+.back { background: var(--accent); color: #fff; transform: rotateY(180deg); box-shadow: 5px 5px 0 var(--cta); }
+.face .src { font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.back .src { color: #F9D86B; }
+.face .no { font-family: var(--display); font-size: 22px; line-height: 1.15; overflow-wrap: anywhere; }
+.front .no { color: var(--muted); }
+.face .en { font-style: italic; color: var(--muted); font-size: 15px; }
+.back .en { color: rgba(255,255,255,.8); }
+.back .pre { font-size: 14px; font-weight: 600; color: rgba(255,255,255,.8); }
+.face .ctx { margin-top: auto; padding-top: 10px; border-top: 2px dashed rgba(255,255,255,.3); font-size: 14px; }
+.face .tap { margin-top: auto; font-size: 13px; font-weight: 700; color: var(--cta); }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@media (max-width: 960px) { .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .cards { grid-template-columns: minmax(0, 1fr); gap: 22px; margin-top: 36px; } .face { min-height: 0; } .face .no { font-size: 21px; } }
+
 /* parody logos as stickers on navy */
 .fam { background: var(--accent); color: #fff; margin-top: 100px; padding: 90px 0 100px; overflow: hidden; }
 .fam .lede { color: rgba(255,255,255,.82); }
@@ -161,6 +200,9 @@ footer a { color: #fff; font-weight: 700; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; animation: none !important; }
   .scribble path { stroke-dashoffset: 0; }
+  /* no flip, just swap faces */
+  .flip[aria-pressed="true"] .in, .back { transform: none; }
+  .flip[aria-pressed="true"] .front, .flip[aria-pressed="false"] .back { visibility: hidden; }
 }
 </style>
 </head>
@@ -169,13 +211,22 @@ footer a { color: #fff; font-weight: 700; }
   <div class="wrap">
     <div class="top">
       <a class="brand" href="./"><img src="img/icon.png" alt=""><b class="word">Heia<span>NORSK</span></b></a>
-      <nav aria-label="Sections"><a href="#how">How it works</a><a href="#heard">Listen</a><a href="#langs">Languages</a></nav>
+      <nav aria-label="Sections"><a href="#how">How it works</a><a href="#heard">Listen</a><a href="#street">Book vs street</a><a href="#langs">Languages</a></nav>
     </div>
     <div class="hero-grid">
       <div>
         <h1>Learn what people in Norway actually say.</h1>
         <div class="jab" aria-live="polite"><span class="nonsense" id="non"></span><span class="real" id="real"></span></div>
         <p class="lead">Short real-life scenes: the checkout, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
+        <table class="says">
+          <thead><tr><th scope="col">The book says</th><th scope="col">Norway says</th></tr></thead>
+          <tbody lang="nb">
+            <tr><td class="bk">Hvordan har du det?</td><td class="rl">Åssen går'e?</td></tr>
+            <tr><td class="bk">Jeg vil gjerne ha en kaffe.</td><td class="rl">Kan jeg få en kaffe?</td></tr>
+            <tr><td class="bk">Unnskyld meg, kan du gjenta det?</td><td class="rl">Hæ?</td></tr>
+            <tr><td class="bk">Farvel!</td><td class="rl">Snakkes!</td></tr>
+          </tbody>
+        </table>
         <span class="soon">Coming soon to Google Play and the App Store</span>
       </div>
       <div class="shots">
@@ -205,6 +256,15 @@ footer a { color: #fff; font-weight: 700; }
       <p class="lede">Four real moments from the app, voiced like in the app. Tap the first line and the reply follows. Then picture yourself saying it.</p>
     </div>
     <div class="exs" id="exs"></div>
+  </section>
+
+  <section class="street wrap" id="street">
+    <div class="heard-head">
+      <h2>Book<br>vs street.</h2>
+      <p class="lede">Ten years in Norway, and nobody has asked me if the bear drinks milk. Tap a card to see what people really say.</p>
+    </div>
+    <div class="cards" id="cards"></div>
+    <p class="sr" aria-live="polite" id="flipsay"></p>
   </section>
 
   <section class="fam" aria-labelledby="fam-h">
@@ -315,6 +375,33 @@ for (const [where, aside, lines] of X) {
   btns[0][0].onclick = () => play(btns[0][0], btns[0][1], () => play(btns[1][0], btns[1][1]));
   btns[1][0].onclick = () => play(btns[1][0], btns[1][1]);
   box.appendChild(ex);
+}
+// flip cards: [source, book, meaning, intro, real, meaning, context]
+const C = [
+  ['Textbook, chapter 1', 'Ha det bra!', 'Goodbye, have a good one.', '', 'Ha det! Snakkes!', 'Bye! Talk soon!', 'Over your shoulder, already halfway out the door.'],
+  ['Phrasebook', 'Hvor mye koster det?', 'How much does it cost?', '', 'Hva blir det?', 'What does it come to?', 'At the till, card in hand. The price is on the screen anyway.'],
+  ['Textbook, chapter 2', 'Jeg forstår ikke.', 'I do not understand.', '', "Skjønner'ke.", "Don't get it.", 'Forstå lives in the book. Skjønne lives in the mouth.'],
+  ['Uglingo, lesson 3', 'Bjørnen drikker melk.', 'The bear drinks milk.', 'Nobody in Norway has ever said this. Try:', 'Har du DonaldTrumpf-kort?', 'Do you have a DonaldTrumpf card?', 'Asked at every checkout. Every single one.'],
+  ['Textbook, chapter 1', 'Ja.', 'Yes.', '', '*ja* (inhaled)', 'Yes. Go on. I agree.', 'A quick gasp inwards. Not a medical event, just agreement.'],
+  ['Language app', 'Det var hyggelig å møte deg.', 'It was nice to meet you.', '', 'Hyggelig!', 'Nice!', 'One word, mid-handshake, right after the names.'],
+  ['Phrasebook', 'Vær så snill.', 'Please.', '', 'Kan jeg få en bolle, takk?', 'Can I get a bun, thanks?', 'Please goes at the end and sounds like takk. Vær så snill is for begging.'],
+  ['Textbook, chapter 4', 'Takk for maten.', 'Thanks for the food.', 'The book got this one right.', 'Takk for maten.', 'Thanks for the food.', 'Say it after every meal. Every time. Someone will notice.'],
+];
+const deck = document.getElementById('cards'), say = document.getElementById('flipsay');
+for (const [src, bk, bkEn, pre, rl, rlEn, ctx] of C) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'flip'; b.setAttribute('aria-pressed', 'false');
+  b.innerHTML = '<span class="in"><span class="face front"><span class="src"></span><span class="no" lang="nb"></span><span class="en"></span><span class="tap">Tap to flip</span></span>'
+    + '<span class="face back" aria-hidden="true"><span class="src">Norway says</span><span class="pre"></span><span class="no" lang="nb"></span><span class="en"></span><span class="ctx"></span></span></span>';
+  const f = b.querySelector('.front'), k = b.querySelector('.back');
+  f.querySelector('.src').textContent = src; f.querySelector('.no').textContent = bk; f.querySelector('.en').textContent = bkEn;
+  if (pre) k.querySelector('.pre').textContent = pre; else k.querySelector('.pre').remove();
+  k.querySelector('.no').textContent = rl; k.querySelector('.en').textContent = rlEn; k.querySelector('.ctx').textContent = ctx;
+  b.onclick = () => {
+    const on = b.getAttribute('aria-pressed') !== 'true';
+    b.setAttribute('aria-pressed', on); f.setAttribute('aria-hidden', on); k.setAttribute('aria-hidden', !on);
+    say.textContent = on ? (pre ? pre + ' ' : '') + rl + ' ' + rlEn + ' ' + ctx : bk + ' ' + bkEn;
+  };
+  deck.appendChild(b);
 }
 </script>
 </body>
