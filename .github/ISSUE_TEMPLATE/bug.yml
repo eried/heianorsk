@@ -1,0 +1,37 @@
+name: Something does not work
+description: The app crashes, a button does nothing, the microphone or the stars behave strangely.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks! For a problem with one scene (a wrong word, bad audio, an odd reply), the flag inside the scene is quicker: it sends the scene with it."
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: phone
+    attributes:
+      label: Phone
+      options: [Android, iPhone]
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: Phone model and app version
+      description: The version is in Profile, under Credits.
+      placeholder: Pixel 8, v0.8
+  - type: dropdown
+    id: lang
+    attributes:
+      label: App language
+      options: [Español, English, Polski, Українська, Lietuvių, Soomaali]
+  - type: textarea
+    id: shots
+    attributes:
+      label: Screenshots
+      description: Drag images here if you have them.

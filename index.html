@@ -27,7 +27,8 @@ header.hero { background: var(--accent); color: #fff; padding: 64px 0 72px; over
 h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 22px 0 18px; text-wrap: balance; }
 .jab { min-height: 92px; display: grid; gap: 10px; justify-items: start; }
 .nonsense { font-size: 18px; opacity: .85; position: relative; }
-.nonsense::after { content: ""; position: absolute; left: 0; right: 0; top: 54%; height: 3px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)); transition: transform .45s ease-out; }
+.nonsense::after { content: ""; position: absolute; left: 0; right: 0; top: 56%; height: 2px; margin-top: -1px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)); transition: transform .45s ease-out; }
+.jab.reset .nonsense::after, .jab.reset .real { transition: none; }
 .real { background: var(--lime); color: var(--ink); font-family: var(--display); font-size: 22px; padding: 6px 16px; border-radius: 99px;
   transform: rotate(-3deg) scale(var(--p, 0)); transition: transform .45s cubic-bezier(.3,1.7,.5,1); }
 .lead { font-size: 19px; max-width: 34ch; opacity: .95; }
@@ -38,7 +39,7 @@ h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 6vw, 
 .shots img:first-child { transform: rotate(-3deg); }
 section { padding: 64px 0 8px; }
 h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 18px; text-wrap: balance; }
-.grid3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.grid3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 20px; }
 .card b { display: block; font-size: 18px; margin-bottom: 4px; }
 .card p { margin: 0; color: var(--muted); }
@@ -76,9 +77,10 @@ footer a { color: var(--accent); }
   <section>
     <h2>How it works</h2>
     <div class="grid3">
-      <div class="card"><span class="step">1 · LISTEN</span><b>A real situation</b><p>The cashier asks about a bag, the bus driver about your stop, the neighbour about the dugnad. Real Norwegian voices, local dialects included.</p></div>
-      <div class="card"><span class="step">2 · SPEAK</span><b>Say your line out loud</b><p>No typing, no tapping words in order. You answer like you would at the till tomorrow morning.</p></div>
-      <div class="card"><span class="step">3 · STARS</span><b>Scored on your phone</b><p>Your pronunciation is checked on the device, word by word. Tricky sounds like takk/tak and ny/ni get a tip. Your voice never leaves the phone.</p></div>
+      <div class="card"><span class="step">1 · THE SCENE</span><b>You get a role</b><p>"You are at the bakery. You want bread, and the baker asks if it should be sliced." Every scene is a moment you will meet in Norway, from the till to the parents' meeting.</p></div>
+      <div class="card"><span class="step">2 · SAY IT</span><b>Speak, like you would there</b><p>Your line is on the screen with its meaning in your language. Listen first if you like, then say it out loud. No typing, no word puzzles.</p></div>
+      <div class="card"><span class="step">3 · STARS</span><b>Scored on your phone</b><p>A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.</p></div>
+      <div class="card"><span class="step">4 · THEY ANSWER</span><b>The conversation goes on</b><p>The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.</p></div>
     </div>
   </section>
 
@@ -99,12 +101,12 @@ footer a { color: var(--accent); }
   <section>
     <h2>Six languages to learn from</h2>
     <div class="langs"><span>Español</span><span>English</span><span>Polski</span><span>Українська</span><span>Lietuvių</span><span>Soomaali</span></div>
-    <p style="color:var(--muted);max-width:60ch">250 scenes from your first "hei" to explaining yourself at work, plus a story about a very strange black cat in Tromsø.</p>
+    <p style="color:var(--muted);max-width:60ch">Hundreds of scenes, from your first "hei" to irony at the Christmas table, and more arrive in the app without an update.</p>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">Heianorsk · made in Norway by an immigrant, for immigrants · <a href="privacy.html">Privacy</a> · <a href="https://github.com/eried/heianorsk/issues">Feedback</a></div>
+  <div class="wrap">Heianorsk · made in Norway by an immigrant, for immigrants · <a href="privacy.html">Privacy</a> · <a href="https://github.com/eried/heianorsk/issues/new/choose">Feedback</a></div>
 </footer>
 
 <script>
@@ -117,10 +119,15 @@ const R = [
 ];
 const non = document.getElementById('non'), real = document.getElementById('real');
 let i = 0;
+const jab = document.querySelector('.jab');
 function round() {
   const [a, b] = R[i++ % R.length];
+  // the line and the answer vanish at once, with the new text; only drawing in is animated
+  jab.classList.add('reset');
   non.style.setProperty('--s', 0); real.style.setProperty('--p', 0);
   non.textContent = '«' + a + '»'; real.textContent = b;
+  void jab.offsetWidth;
+  jab.classList.remove('reset');
   setTimeout(() => non.style.setProperty('--s', 1), 900);
   setTimeout(() => real.style.setProperty('--p', 1), 1400);
   setTimeout(round, 4200);
@@ -129,8 +136,12 @@ round();
 const S = [
   ['audio/hei-r1.m4a', 'Hei! Hvordan går det?', 'Your neighbour, level 0'],
   ['audio/hei-l1.m4a', 'Hei!', 'You, level 0'],
-  ['audio/katten-1-hva-var-det-l1.m4a', 'Aurelia! Er du våken?', 'Patrick, the cat story'],
-  ['audio/katten-1-hva-var-det-r1.m4a', 'Nå er jeg det. Hva?', 'Aurelia, the cat story'],
+  ['audio/skal-det-skjaeres-l2.m4a', 'Unnskyld? Skjæres?', 'You, at the bakery, level 1'],
+  ['audio/skal-det-skjaeres-r2.m4a', 'Ja, i maskinen. I skiver.', 'The baker, level 1'],
+  ['audio/bli-sittende-l3.m4a', 'Bli sittende? Her?', 'You, on the bus in Trondheim, level 1'],
+  ['audio/bli-sittende-r3.m4a', 'Ja. Bussen blir en ny linje. Du trenger ikke gå av.', 'The bus driver, level 1'],
+  ['audio/halvt-syk-l4.m4a', 'Gradert? Kan man være halvt syk?', 'You, at the doctor, level 2'],
+  ['audio/halvt-syk-r4.m4a', 'Ja. Du jobber litt, og er sykmeldt resten.', 'The doctor, level 2'],
 ];
 const box = document.getElementById('samples');
 let playing = null;

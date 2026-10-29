@@ -1,0 +1,21 @@
+name: Idea or feedback
+description: Something you would like, a situation you want a scene for, or what you think of the app.
+labels: [feedback]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea or feedback
+      description: A situation from your life in Norway that the app should have is especially welcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: lang
+    attributes:
+      label: App language
+      options: [Español, English, Polski, Українська, Lietuvių, Soomaali]
+  - type: input
+    id: level
+    attributes:
+      label: Your level
+      placeholder: "Level 2, or: I just started"
