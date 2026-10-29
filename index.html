@@ -11,107 +11,251 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&display=swap">
 <style>
-:root { --accent: #00205B; --bg: #F7F4EE; --ink: #0E1B33; --muted: #4E5A70; --cta: #BA0C2F; --line: #DCE4F2; --red: #E0436B;
+:root { --accent: #00205B; --bg: #F7F4EE; --ink: #0E1B33; --muted: #4E5A70; --cta: #BA0C2F; --red: #E0436B; --line: #DCD5C7;
+  --tape: rgba(240, 226, 190, .82);
   --display: "Archivo Black", "Arial Black", system-ui, sans-serif; --body: "Archivo", system-ui, -apple-system, sans-serif; }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); line-height: 1.5; }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 max(20px, env(safe-area-inset-left)); }
-header.hero { background: var(--accent); color: #fff; padding: 64px 0 72px; overflow: hidden; }
-.hero .wrap { display: grid; gap: 40px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); align-items: center; }
-@media (max-width: 760px) { .hero .wrap { grid-template-columns: minmax(0, 1fr); } }
-.brand { display: flex; align-items: center; gap: 14px; }
-.brand img { width: 64px; height: 64px; border-radius: 16px; }
-.brand b { font-family: var(--display); font-size: 34px; font-weight: 400; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.5; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 max(24px, env(safe-area-inset-left)); }
+@media (max-width: 600px) { .wrap { padding: 0 max(16px, env(safe-area-inset-left)); } }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+h2 { font-size: clamp(34px, 5.4vw, 60px); line-height: 1; }
+.lede { color: var(--muted); font-size: 19px; max-width: 46ch; margin: 18px 0 0; }
+
+/* hand-drawn underline under a word */
+.scribble { position: relative; white-space: nowrap; }
+.scribble svg { position: absolute; left: -3%; width: 106%; bottom: -.16em; height: .3em; overflow: visible; }
+.scribble path { fill: none; stroke: var(--red); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 260; stroke-dashoffset: 260; animation: draw .7s .5s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* tape strip, used on screenshots and notes */
+.taped { position: relative; }
+.taped::before { content: ""; position: absolute; z-index: 2; top: -14px; left: 50%; width: 92px; height: 28px; margin-left: -46px;
+  background: var(--tape); transform: rotate(var(--tr, -4deg)); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+
+/* hero */
+header.hero { background: var(--accent); color: #fff; padding: 28px 0 0; overflow: hidden; position: relative; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.brand img { width: 48px; height: 48px; border-radius: 12px; }
+.brand b { font-family: var(--display); font-size: 26px; font-weight: 400; }
 /* the app's title: white chip, NORSK half red, half blue, the colours gliding across */
-.brand .word { background: #fff; color: var(--ink); padding: 2px 16px 4px; border-radius: 14px; }
+.brand .word { background: #fff; color: var(--ink); padding: 2px 13px 3px; border-radius: 12px; }
 .brand .word span { background: linear-gradient(90deg, #BA0C2F 0 25%, #00205B 25% 50%, #BA0C2F 50% 75%, #00205B 75%) 0 0 / 200% 100%;
   -webkit-background-clip: text; background-clip: text; color: transparent; animation: glide 8s linear infinite; }
 @keyframes glide { to { background-position: -200% 0; } }
-h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, 6vw, 56px); line-height: 1.05; margin: 22px 0 18px; text-wrap: balance; }
-.jab { min-height: 92px; display: grid; gap: 10px; justify-items: start; }
-.nonsense { font-size: 18px; opacity: .85; position: relative; }
-.nonsense::after { content: ""; position: absolute; left: 0; right: 0; top: 56%; height: 2px; margin-top: -1px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)); transition: transform .45s ease-out; }
+.top nav { display: flex; gap: 22px; font-weight: 600; font-size: 15px; }
+.top nav a { text-decoration: none; opacity: .85; }
+.top nav a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 32px; align-items: end; margin-top: 56px; }
+h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
+.jab { min-height: 104px; display: grid; gap: 12px; justify-items: start; margin-top: 34px; }
+.nonsense { font-size: 19px; opacity: .8; position: relative; font-style: italic; }
+.nonsense::after { content: ""; position: absolute; left: -2px; right: -2px; top: 56%; height: 3px; margin-top: -1px; border-radius: 2px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)) rotate(-1deg); transition: transform .45s ease-out; }
 .jab.reset .nonsense::after, .jab.reset .real { transition: none; }
-.real { background: var(--cta); color: #fff; font-family: var(--display); font-size: 22px; padding: 6px 16px; border-radius: 99px;
-  transform: rotate(-3deg) scale(var(--p, 0)); transition: transform .45s cubic-bezier(.3,1.7,.5,1); }
-.lead { font-size: 19px; max-width: 34ch; opacity: .95; }
-.soon { display: inline-block; margin-top: 22px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.35); padding: 10px 16px; border-radius: 14px; font-weight: 600; }
-.shots { display: flex; gap: 14px; justify-content: center; }
-.shots img { width: 46%; max-width: 210px; border-radius: 22px; border: 6px solid var(--ink); box-shadow: 0 18px 40px rgba(0,0,0,.25); }
-.shots img:last-child { transform: translateY(30px) rotate(3deg); }
-.shots img:first-child { transform: rotate(-3deg); }
-section { padding: 64px 0 8px; }
-h2 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0 0 18px; text-wrap: balance; }
-.grid3 { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 20px; }
-.card b { display: block; font-size: 18px; margin-bottom: 4px; }
-.card p { margin: 0; color: var(--muted); }
-.step { font-family: var(--display); color: var(--accent); font-size: 14px; letter-spacing: .06em; }
-.samples { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.sample { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; }
-.sample button { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--accent); color: #fff; font-size: 18px; cursor: pointer; }
-.sample button:focus-visible { outline: 3px solid var(--cta); outline-offset: 2px; }
-.sample .no { font-weight: 700; }
-.sample .who { color: var(--muted); font-size: 14px; }
-.logos { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-.logos img { width: 100%; border-radius: 14px; box-shadow: 0 4px 14px rgba(28,20,51,.12); }
-.langs { display: flex; flex-wrap: wrap; gap: 8px; }
-.langs span { background: #fff; border: 1px solid var(--line); border-radius: 99px; padding: 6px 14px; font-weight: 600; }
-footer { margin-top: 64px; padding: 32px 0 48px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
-footer a { color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+.real { background: var(--cta); color: #fff; font-family: var(--display); font-size: clamp(20px, 2.6vw, 26px); padding: 8px 18px 9px; border-radius: 6px;
+  box-shadow: 3px 3px 0 rgba(0,0,0,.35); transform: rotate(-3deg) scale(var(--p, 0)); transition: transform .45s cubic-bezier(.3,1.7,.5,1); }
+.lead { font-size: 20px; max-width: 36ch; margin: 26px 0 0; opacity: .95; }
+.soon { display: inline-block; margin: 30px 0 64px; background: var(--bg); color: var(--ink); font-weight: 800; font-size: 15px; letter-spacing: .02em;
+  padding: 10px 16px; transform: rotate(-1.5deg); box-shadow: 4px 4px 0 var(--cta); }
+.shots { position: relative; height: 560px; }
+.shots figure { margin: 0; position: absolute; width: 58%; max-width: 260px; }
+.shots img { border-radius: 26px; border: 7px solid var(--ink); box-shadow: 0 24px 50px rgba(0,0,0,.35); }
+.shots .a { left: 0; top: 30px; transform: rotate(-5deg); --tr: 6deg; }
+.shots .b { right: 0; top: 120px; transform: rotate(4deg); --tr: -8deg; }
+.hand { position: absolute; right: 4%; top: 0; font-weight: 700; font-style: italic; font-size: 17px; color: #fff; transform: rotate(4deg); z-index: 3; }
+.hand svg { display: block; margin: 4px 0 0 30px; }
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: minmax(0, 1fr); margin-top: 40px; }
+  .soon { margin-bottom: 8px; }
+  .shots { height: auto; display: flex; justify-content: center; gap: 4%; padding: 34px 0 0; margin-bottom: -60px; }
+  .shots figure { position: relative; width: 44%; left: auto; right: auto; top: auto; }
+  .shots .b { top: 36px; }
+  .hand { display: none; }
+}
+@media (max-width: 520px) { .top nav { display: none; } .jab { min-height: 116px; } }
+
+/* how it works: editorial list, not cards */
+.how { padding-top: 120px; padding-bottom: 40px; }
+.how-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 48px; }
+.how h2 { position: sticky; top: 32px; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px 20px; padding: 26px 0; border-top: 2px solid var(--ink); }
+.steps li:last-child { border-bottom: 2px solid var(--ink); }
+.steps li::before { content: counter(s); font-family: var(--display); font-size: 72px; line-height: .85; color: transparent; -webkit-text-stroke: 2px var(--ink); grid-row: span 2; }
+.steps li:nth-child(odd)::before { color: var(--cta); -webkit-text-stroke: 0; }
+.steps h3 { font-size: 26px; line-height: 1.1; }
+.steps p { margin: 0; color: var(--muted); max-width: 56ch; }
+.steps q { color: var(--ink); font-style: italic; }
+.stars { color: var(--cta); letter-spacing: 2px; margin-left: 6px; font-size: 22px; display: inline-block; transform: rotate(-4deg); }
+@media (max-width: 860px) { .how { padding-top: 110px; } .how-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; } .how h2 { position: static; } }
+@media (max-width: 520px) { .steps li { grid-template-columns: 52px minmax(0, 1fr); gap: 6px 14px; } .steps li::before { font-size: 52px; } .steps h3 { font-size: 22px; } }
+
+/* overheard: real lines from the app */
+.heard { padding-top: 80px; padding-bottom: 40px; }
+.heard-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 32px; }
+.heard-head .lede { margin: 0; max-width: 40ch; }
+.exs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 40px; margin-top: 56px; align-items: start; }
+.ex { background: #fff; border: 2px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); padding: 26px 22px 20px; transform: rotate(var(--r, 0deg)); }
+.ex:nth-child(4n+1) { --r: -.8deg; --tr: 3deg; }
+.ex:nth-child(4n+2) { --r: .7deg; --tr: -5deg; margin-top: 48px; }
+.ex:nth-child(4n+3) { --r: .5deg; --tr: -2deg; }
+.ex:nth-child(4n+4) { --r: -.6deg; --tr: 5deg; margin-top: 48px; }
+.where { font-weight: 800; font-size: 14px; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 14px; }
+.where span { text-transform: none; letter-spacing: 0; font-weight: 400; font-style: italic; color: var(--muted); font-size: 15px; }
+.ln { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 2px 12px; width: 100%; text-align: left; font: inherit; color: inherit;
+  background: none; border: 0; padding: 10px 0; cursor: pointer; }
+.ln + .ln { border-top: 2px dashed var(--line); }
+.ln .ic { grid-row: span 3; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; transition: transform .15s; }
+.ln.them .ic { background: var(--cta); }
+.ln:hover .ic { transform: scale(1.08) rotate(-6deg); }
+.ln:focus-visible { outline: 3px solid var(--cta); outline-offset: 4px; }
+.ln .ic svg { width: 16px; height: 16px; }
+.ln .ic .pa { display: none; }
+.ln.on .ic .pl { display: none; }
+.ln.on .ic .pa { display: block; }
+.ln .who { font-size: 13px; font-weight: 700; color: var(--muted); }
+.ln .no { font-family: var(--display); font-size: 21px; line-height: 1.2; }
+.ln.them .no { color: var(--accent); }
+.ln .en { font-style: italic; color: var(--muted); font-size: 16px; }
+.ln mark { background: none; color: inherit; position: relative; z-index: 0; }
+.ln mark::after { content: ""; position: absolute; z-index: -1; left: -4px; right: -4px; bottom: 1px; height: 45%; background: #F9D86B; transform: rotate(-2deg); border-radius: 3px; }
+@media (max-width: 760px) {
+  .exs { grid-template-columns: minmax(0, 1fr); gap: 36px; margin-top: 40px; }
+  .ex:nth-child(n) { margin-top: 0; }
+  .ex { padding: 22px 16px 14px; box-shadow: 5px 5px 0 var(--ink); }
+  .ln .no { font-size: 19px; }
+}
+
+/* parody logos as stickers on navy */
+.fam { background: var(--accent); color: #fff; margin-top: 100px; padding: 90px 0 100px; overflow: hidden; }
+.fam .lede { color: rgba(255,255,255,.82); }
+.stickers { display: flex; flex-wrap: wrap; justify-content: center; gap: 26px 22px; margin-top: 52px; }
+.stickers img { width: 230px; border-radius: 14px; border: 5px solid #fff; box-shadow: 0 10px 24px rgba(0,0,0,.35); transform: rotate(var(--r)); transition: transform .2s; }
+.stickers img:hover { transform: rotate(0) scale(1.04); }
+.stickers img:nth-child(1) { --r: -4deg; }
+.stickers img:nth-child(2) { --r: 3deg; margin-top: 22px; }
+.stickers img:nth-child(3) { --r: -1.5deg; }
+.stickers img:nth-child(4) { --r: 2.5deg; }
+.stickers img:nth-child(5) { --r: -3deg; margin-top: 18px; }
+.stickers img:nth-child(6) { --r: 5deg; }
+@media (max-width: 600px) { .stickers { gap: 16px 12px; } .stickers img { width: calc(50% - 6px); border-width: 3px; } .stickers img:nth-child(n) { margin-top: 0; } }
+
+/* languages */
+.langs-sec { padding-top: 100px; padding-bottom: 30px; }
+.langs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 48px; border-top: 2px solid var(--ink); border-left: 2px solid var(--ink); }
+.lang { border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding: 22px 22px 24px; display: grid; gap: 4px; min-height: 180px; align-content: space-between; position: relative; }
+.lang .code { font-weight: 800; font-size: 13px; letter-spacing: .1em; color: var(--muted); display: flex; justify-content: space-between; }
+.lang .name { font-family: var(--display); font-size: clamp(30px, 3.6vw, 44px); line-height: 1; }
+.lang .hi { font-style: italic; font-weight: 600; color: var(--cta); font-size: 18px; }
+.lang:nth-child(2) { background: var(--accent); color: #fff; }
+.lang:nth-child(2) .code { color: rgba(255,255,255,.7); }
+.lang:nth-child(2) .hi { color: #F9D86B; }
+.lang:nth-child(6) { background: #fff; }
+.langs-note { color: var(--muted); max-width: 60ch; margin: 22px 0 0; }
+@media (max-width: 760px) { .langs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .lang { min-height: 150px; padding: 16px 14px 18px; } .lang .name { font-size: min(27px, 7vw); } .lang .name.long { font-size: min(23px, 5.6vw); } .lang .hi { font-size: 16px; } }
+
+/* closing and footer */
+.end { padding-top: 110px; text-align: center; }
+.end h2 { font-size: clamp(36px, 6.4vw, 78px); }
+.end .soon { margin: 30px 0 0; font-size: 17px; transform: rotate(1.5deg); background: var(--cta); color: #fff; box-shadow: 4px 4px 0 var(--ink); }
+footer { margin-top: 110px; background: var(--ink); color: rgba(255,255,255,.75); padding: 34px 0 calc(40px + env(safe-area-inset-bottom)); font-size: 15px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; justify-content: space-between; align-items: center; }
+footer nav { display: flex; gap: 22px; }
+footer a { color: #fff; font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .scribble path { stroke-dashoffset: 0; }
+}
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="wrap">
-    <div>
-      <div class="brand"><img src="img/icon.png" alt=""><b class="word">Heia<span>NORSK</span></b></div>
-      <h1>Learn what people in Norway actually say.</h1>
-      <div class="jab" aria-live="polite"><span class="nonsense" id="non"></span><span class="real" id="real"></span></div>
-      <p class="lead">Short real-life scenes: the till, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
-      <span class="soon">Coming soon to Google Play and the App Store</span>
+    <div class="top">
+      <a class="brand" href="./"><img src="img/icon.png" alt=""><b class="word">Heia<span>NORSK</span></b></a>
+      <nav aria-label="Sections"><a href="#how">How it works</a><a href="#heard">Listen</a><a href="#langs">Languages</a></nav>
     </div>
-    <div class="shots"><img src="img/today.jpg" alt="The Today tab with the next scene"><img src="img/scene.jpg" alt="A scene with its character card"></div>
+    <div class="hero-grid">
+      <div>
+        <h1>Learn what people in Norway <span class="scribble">actually<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 40 3, 70 12, 110 7 S 170 3, 197 8"/></svg></span> say.</h1>
+        <div class="jab" aria-live="polite"><span class="nonsense" id="non"></span><span class="real" id="real"></span></div>
+        <p class="lead">Short real-life scenes: the checkout, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
+        <span class="soon">Coming soon to Google Play and the App Store</span>
+      </div>
+      <div class="shots">
+        <p class="hand" aria-hidden="true">the real app, promise
+          <svg width="44" height="40" viewBox="0 0 44 40"><path d="M4 3 C 8 20, 18 30, 36 34 M28 26 L 37 34 L 26 38" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
+        <figure class="a taped"><img src="img/today.jpg" alt="The Today tab with the next scene" width="420" height="867"></figure>
+        <figure class="b taped"><img src="img/scene.jpg" alt="A scene with its character card" width="420" height="867"></figure>
+      </div>
+    </div>
   </div>
 </header>
 
-<main class="wrap">
-  <section>
-    <h2>How it works</h2>
-    <div class="grid3">
-      <div class="card"><span class="step">1 · THE SCENE</span><b>You get a role</b><p>"You are at the bakery. You want bread, and the baker asks if it should be sliced." Every scene is a moment you will meet in Norway, from the till to the parents' meeting.</p></div>
-      <div class="card"><span class="step">2 · SAY IT</span><b>Speak, like you would there</b><p>Your line is on the screen with its meaning in your language. Listen first if you like, then say it out loud. No typing, no word puzzles.</p></div>
-      <div class="card"><span class="step">3 · STARS</span><b>Scored on your phone</b><p>A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.</p></div>
-      <div class="card"><span class="step">4 · THEY ANSWER</span><b>The conversation goes on</b><p>The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.</p></div>
+<main>
+  <section class="how wrap" id="how">
+    <div class="how-grid">
+      <h2>How a scene goes.</h2>
+      <ol class="steps">
+        <li><h3>You get a role.</h3><p><q>You are at the bakery. You want bread, and the baker asks if it should be sliced.</q> Every scene is a moment you will meet in Norway, from the checkout to the parents' meeting.</p></li>
+        <li><h3>You say it. Out loud.</h3><p>Your line is on the screen with its meaning in your language. Listen first if you like, then say it like you would there. No typing, no word puzzles.</p></li>
+        <li><h3>Your phone gives you stars.<span class="stars" aria-label="three stars">★★★</span></h3><p>A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.</p></li>
+        <li><h3>Norway answers back.</h3><p>The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.</p></li>
+      </ol>
     </div>
   </section>
 
-  <section>
-    <h2>Listen to a few lines</h2>
-    <div class="samples" id="samples"></div>
+  <section class="heard wrap" id="heard">
+    <div class="heard-head">
+      <h2>Overheard<br>in Norway.</h2>
+      <p class="lede">Six real moments from the app, voiced like in the app. Tap the first line and the reply follows. Then picture yourself saying it.</p>
+    </div>
+    <div class="exs" id="exs"></div>
   </section>
 
-  <section>
-    <h2>A Norway that looks familiar</h2>
-    <p style="color:var(--muted);max-width:60ch;margin-top:-6px">Shops and apps in the scenes are friendly parodies, so you can laugh at the till before you get there.</p>
-    <div class="logos">
-      <img src="img/rema-1100.png" alt="Rema 1100"><img src="img/eurokrise.png" alt="Eurokrise"><img src="img/kvikk-kat.png" alt="Kvikk Kat">
-      <img src="img/donaldtrumpf-kort.png" alt="DonaldTrumpf card"><img src="img/ikkea.png" alt="IKKEA"><img src="img/tindr.png" alt="Tindr">
+  <section class="fam" aria-labelledby="fam-h">
+    <div class="wrap">
+      <h2 id="fam-h">A Norway that looks familiar.</h2>
+      <p class="lede">Shops and apps in the scenes are friendly parodies, so you can laugh at the checkout before you get there.</p>
+      <div class="stickers">
+        <img src="img/rema-1100.png" alt="Rema 1100"><img src="img/eurokrise.png" alt="Eurokrise"><img src="img/kvikk-kat.png" alt="Kvikk Kat">
+        <img src="img/donaldtrumpf-kort.png" alt="DonaldTrumpf card"><img src="img/ikkea.png" alt="IKKEA"><img src="img/tindr.png" alt="Tindr">
+      </div>
     </div>
   </section>
 
-  <section>
-    <h2>Six languages to learn from</h2>
-    <div class="langs"><span>Español</span><span>English</span><span>Polski</span><span>Українська</span><span>Lietuvių</span><span>Soomaali</span></div>
-    <p style="color:var(--muted);max-width:60ch">Hundreds of scenes, from your first "hei" to irony at the Christmas table, and more arrive in the app without an update.</p>
+  <section class="langs-sec wrap" id="langs">
+    <h2>Explained in <span class="scribble">your<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 50 12, 90 2, 130 7 S 180 11, 197 6"/></svg></span> language.</h2>
+    <p class="lede">Every line comes with its meaning in one of six languages. Pick the one you think in.</p>
+    <div class="langs">
+      <div class="lang" lang="es"><span class="code">ES <span>Spanish</span></span><span class="name">Español</span><span class="hi">¡Hola!</span></div>
+      <div class="lang" lang="en"><span class="code">EN <span>English</span></span><span class="name">English</span><span class="hi">Hello there.</span></div>
+      <div class="lang" lang="pl"><span class="code">PL <span>Polish</span></span><span class="name">Polski</span><span class="hi">Cześć!</span></div>
+      <div class="lang" lang="uk"><span class="code">UK <span>Ukrainian</span></span><span class="name long">Українська</span><span class="hi">Привіт!</span></div>
+      <div class="lang" lang="lt"><span class="code">LT <span>Lithuanian</span></span><span class="name">Lietuvių</span><span class="hi">Labas!</span></div>
+      <div class="lang" lang="so"><span class="code">SO <span>Somali</span></span><span class="name">Soomaali</span><span class="hi">Iska warran?</span></div>
+    </div>
+    <p class="langs-note">Hundreds of scenes, from your first "hei" to irony at the Christmas table, and more arrive in the app without an update.</p>
+  </section>
+
+  <section class="end wrap">
+    <h2>Say it out loud.<br>Norway is listening.</h2>
+    <span class="soon">Coming soon to Google Play and the App Store</span>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">Heianorsk · made in Norway by an immigrant, for immigrants · <a href="privacy.html">Privacy</a> · <a href="https://github.com/eried/heianorsk/issues/new/choose">Feedback</a></div>
+  <div class="wrap">
+    <span>Heianorsk · made in Norway by an immigrant, for immigrants</span>
+    <nav><a href="privacy.html">Privacy</a><a href="https://github.com/eried/heianorsk/issues/new/choose">Feedback</a></nav>
+  </div>
 </footer>
 
 <script>
@@ -138,25 +282,59 @@ function round() {
   setTimeout(round, 4200);
 }
 round();
-const S = [
-  ['audio/hei-r1.m4a', 'Hei! Hvordan går det?', 'Your neighbour, level 0'],
-  ['audio/hei-l1.m4a', 'Hei!', 'You, level 0'],
-  ['audio/skal-det-skjaeres-l2.m4a', 'Unnskyld? Skjæres?', 'You, at the bakery, level 1'],
-  ['audio/skal-det-skjaeres-r2.m4a', 'Ja, i maskinen. I skiver.', 'The baker, level 1'],
-  ['audio/bli-sittende-l3.m4a', 'Bli sittende? Her?', 'You, on the bus in Trondheim, level 1'],
-  ['audio/bli-sittende-r3.m4a', 'Ja. Bussen blir en ny linje. Du trenger ikke gå av.', 'The bus driver, level 1'],
-  ['audio/halvt-syk-l4.m4a', 'Gradert? Kan man være halvt syk?', 'You, at the doctor, level 2'],
-  ['audio/halvt-syk-r4.m4a', 'Ja. Du jobber litt, og er sykmeldt resten.', 'The doctor, level 2'],
+
+// scenes: [where, aside, [file, who, norwegian, english, them?] x2]; *word* gets a highlighter mark
+const X = [
+  ['Bus stop, Bergen', 'raining, obviously', [
+    ['sommer-l2', 'You, from Syria', 'Når kommer sommeren, da? Jeg har shorts i skapet.', 'So when does summer come? I have shorts in the wardrobe.'],
+    ['sommer-r2', 'A neighbour, in Bergen dialect', 'Sommeren va i fjor, på en *tirsdag*. Eg va på jobb.', 'Summer was last year, on a Tuesday. I was at work.', 1]]],
+  ['Barnehage pick-up', 'one letter matters', [
+    ['bet-l2', 'You, picking up your son', 'Bad han for Olav? Så søtt!', 'Did he pray for Olav? How sweet!'],
+    ['bet-r2', 'The barnehage staff', 'Nei, *bet*. Med tennene. I armen.', 'No, bit. With his teeth. On the arm.', 1]]],
+  ['A used Volvo, Trondheim', 'from Finnes.no', [
+    ['rust-l2', 'You, the buyer', 'Den er fin. Men det er rust over bakhjulet.', 'It is nice. But there is rust over the back wheel.'],
+    ['rust-r2', 'The seller', 'Det er ikke rust. Det er *karakter*.', 'That is not rust. That is character.', 1]]],
+  ['Christmas Eve, Bergen', 'you brought a poncho', [
+    ['praktisk-r1', 'Your mother-in-law', 'Å, en poncho! Så *praktisk*, då!', 'Oh, a poncho! How... practical!', 1],
+    ['praktisk-l2', 'You, from Colombia', 'Praktisk? Er det bra, eller sier man det om stygge ting?', 'Practical? Is that good, or is it what you say about ugly things?']]],
+  ['The morning bus, Alta', 'minus thirty', [
+    ['friskt-l2', 'You, from Chile', 'Litt friskt? Jeg kjenner ikke nesen min lenger.', 'A bit nippy? I cannot feel my nose any more.'],
+    ['friskt-r2', 'The bus driver, in Finnmark dialect', 'Nesa kommer tebake. I januar hadde vi minus førti. *Det va kaldt.*', 'Your nose will come back. In January we had minus forty. That was cold.', 1]]],
+  ['The GP calls back', 'you matched on Tindr', [
+    ['legen-r4', 'Eirik, 34, your doctor', 'Hvorfor det? Jeg er *profesjonell*.', 'Why is that? I am a professional.', 1],
+    ['legen-l4', 'You, with the rash', 'Jeg vil heller forklare utslettet til noen jeg ikke har sendt lydmeldinger til.', 'I would rather explain the rash to someone I have not sent voice messages to.']]],
 ];
-const box = document.getElementById('samples');
-let playing = null;
-for (const [src, no, who] of S) {
-  const el = document.createElement('div'); el.className = 'sample';
-  el.innerHTML = `<button type="button" aria-label="Play">▶</button><div><div class="no"></div><div class="who"></div></div>`;
-  el.querySelector('.no').textContent = no; el.querySelector('.who').textContent = who;
-  const a = new Audio(src), b = el.querySelector('button');
-  b.onclick = () => { if (playing && playing !== a) playing.pause(); a.currentTime = 0; a.play(); playing = a; };
-  box.appendChild(el);
+const ICON = '<svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><svg class="pa" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>';
+const box = document.getElementById('exs');
+let cur = null;
+function stop() { if (cur) { cur.a.pause(); cur.b.classList.remove('on'); cur = null; } }
+function play(b, a, next) {
+  const same = cur && cur.a === a; stop();
+  if (same) return;
+  a.currentTime = 0; a.play().catch(() => {}); b.classList.add('on'); cur = { a, b };
+  a.onended = () => { b.classList.remove('on'); if (cur && cur.a === a) cur = null; if (next) next(); };
+}
+for (const [where, aside, lines] of X) {
+  const ex = document.createElement('article'); ex.className = 'ex taped';
+  const h = document.createElement('p'); h.className = 'where'; h.textContent = where + ' ';
+  const s = document.createElement('span'); s.textContent = aside; h.appendChild(s); ex.appendChild(h);
+  const btns = lines.map(([file, who, no, en, them]) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'ln' + (them ? ' them' : '');
+    b.innerHTML = '<span class="ic">' + ICON + '</span><span class="who"></span><span class="no" lang="nb"></span><span class="en"></span>';
+    b.querySelector('.who').textContent = who; b.querySelector('.en').textContent = en;
+    no.split('*').forEach((part, k) => {
+      const n = k % 2 ? document.createElement('mark') : document.createTextNode(part);
+      if (k % 2) n.textContent = part;
+      b.querySelector('.no').appendChild(n);
+    });
+    const a = new Audio(); a.preload = 'none'; a.src = 'audio/' + file + '.m4a';
+    ex.appendChild(b);
+    return [b, a];
+  });
+  // the first line hands over to the reply, so the joke lands
+  btns[0][0].onclick = () => play(btns[0][0], btns[0][1], () => play(btns[1][0], btns[1][1]));
+  btns[1][0].onclick = () => play(btns[1][0], btns[1][1]);
+  box.appendChild(ex);
 }
 </script>
 </body>
