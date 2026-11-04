@@ -74,9 +74,6 @@ h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
   .shots figure { max-width: 46%; }
   .shots .b { margin-top: 36px; }
 }
-.chip { font-weight: 800; font-size: 14px; letter-spacing: .08em; text-decoration: none; border: 2px solid rgba(255,255,255,.6); border-radius: 999px; padding: 5px 12px; }
-.chip:hover { border-color: #fff; }
-.top { flex-wrap: nowrap; } .top nav { margin-left: auto; }
 @media (max-width: 520px) { .top nav { display: none; } .jab { min-height: 116px; } }
 
 /* how it works: editorial list, not cards */
@@ -218,7 +215,6 @@ footer a { color: #fff; font-weight: 700; }
     <div class="top">
       <a class="brand" href="./"><img src="img/icon.png" alt=""><b class="word">Heia<span>NORSK</span></b></a>
       <nav aria-label="Sections"><a href="#how" data-i="nav_how">How it works</a><a href="#heard" data-i="nav_listen">Listen</a><a href="#street" data-i="nav_street">Book vs street</a><a href="#langs" data-i="nav_langs">Languages</a></nav>
-      <a class="chip" href="#langs" id="chip" aria-label="Languages">EN</a>
     </div>
     <div class="hero-grid">
       <div>
@@ -1321,8 +1317,6 @@ function apply(code) {
   document.querySelectorAll('[data-i]').forEach(el => put(el, t(el.dataset.i)));
   document.querySelectorAll('[data-ia]').forEach(el => { el.alt = t(el.dataset.ia); });
   document.querySelectorAll('[data-il]').forEach(el => el.setAttribute('aria-label', t(el.dataset.il)));
-  document.getElementById('chip').textContent = code.toUpperCase();
-  document.getElementById('chip').setAttribute('aria-label', t('nav_langs'));
   picks.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === code));
   scenes(); cards();
 }
