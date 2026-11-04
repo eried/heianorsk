@@ -74,6 +74,9 @@ h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
   .shots figure { max-width: 46%; }
   .shots .b { margin-top: 36px; }
 }
+.chip { font-weight: 800; font-size: 14px; letter-spacing: .08em; text-decoration: none; border: 2px solid rgba(255,255,255,.6); border-radius: 999px; padding: 5px 12px; }
+.chip:hover { border-color: #fff; }
+.top { flex-wrap: nowrap; } .top nav { margin-left: auto; }
 @media (max-width: 520px) { .top nav { display: none; } .jab { min-height: 116px; } }
 
 /* how it works: editorial list, not cards */
@@ -181,10 +184,13 @@ h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
 .lang .code { font-weight: 800; font-size: 13px; letter-spacing: .1em; color: var(--muted); display: flex; justify-content: space-between; }
 .lang .name { font-family: var(--display); font-size: clamp(30px, 3.6vw, 44px); line-height: 1; }
 .lang .hi { font-style: italic; font-weight: 600; color: var(--cta); font-size: 18px; }
-.lang:nth-child(2) { background: var(--accent); color: #fff; }
-.lang:nth-child(2) .code { color: rgba(255,255,255,.7); }
-.lang:nth-child(2) .hi { color: #F9D86B; }
-.lang:nth-child(6) { background: #fff; }
+/* the tiles are the page's language picker */
+.lang { font: inherit; color: inherit; text-align: left; background: none; border-top: 0; border-left: 0; border-radius: 0; cursor: pointer; transition: background .15s; }
+.lang:hover { background: #fff; }
+.lang:focus-visible { outline: 3px solid var(--cta); outline-offset: -6px; }
+.lang[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.lang[aria-pressed="true"] .code { color: rgba(255,255,255,.7); }
+.lang[aria-pressed="true"] .hi { color: #F9D86B; }
 .langs-note { color: var(--muted); max-width: 60ch; margin: 22px 0 0; }
 @media (max-width: 760px) { .langs { grid-template-columns: repeat(2, minmax(0, 1fr)); } .lang { min-height: 150px; padding: 16px 14px 18px; } .lang .name { font-size: min(27px, 7vw); } .lang .name.long { font-size: min(23px, 5.6vw); } .lang .hi { font-size: 16px; } }
 
@@ -211,15 +217,16 @@ footer a { color: #fff; font-weight: 700; }
   <div class="wrap">
     <div class="top">
       <a class="brand" href="./"><img src="img/icon.png" alt=""><b class="word">Heia<span>NORSK</span></b></a>
-      <nav aria-label="Sections"><a href="#how">How it works</a><a href="#heard">Listen</a><a href="#street">Book vs street</a><a href="#langs">Languages</a></nav>
+      <nav aria-label="Sections"><a href="#how" data-i="nav_how">How it works</a><a href="#heard" data-i="nav_listen">Listen</a><a href="#street" data-i="nav_street">Book vs street</a><a href="#langs" data-i="nav_langs">Languages</a></nav>
+      <a class="chip" href="#langs" id="chip" aria-label="Languages">EN</a>
     </div>
     <div class="hero-grid">
       <div>
-        <h1>Learn what people in Norway actually say.</h1>
+        <h1 data-i="h1">Learn what people in Norway actually say.</h1>
         <div class="jab" aria-live="polite"><span class="nonsense" id="non"></span><span class="real" id="real"></span></div>
-        <p class="lead">Short real-life scenes: the checkout, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
+        <p class="lead" data-i="lead">Short real-life scenes: the checkout, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.</p>
         <table class="says">
-          <thead><tr><th scope="col">The book says</th><th scope="col">Norway says</th></tr></thead>
+          <thead><tr><th scope="col" data-i="th_book">The book says</th><th scope="col" data-i="th_norway">Norway says</th></tr></thead>
           <tbody lang="nb">
             <tr><td class="bk">Hvordan har du det?</td><td class="rl">Åssen går'e?</td></tr>
             <tr><td class="bk">Jeg vil gjerne ha en kaffe.</td><td class="rl">Kan jeg få en kaffe?</td></tr>
@@ -227,11 +234,11 @@ footer a { color: #fff; font-weight: 700; }
             <tr><td class="bk">Farvel!</td><td class="rl">Snakkes!</td></tr>
           </tbody>
         </table>
-        <span class="soon">Coming soon to Google Play and the App Store</span>
+        <span class="soon" data-i="soon">Coming soon to Google Play and the App Store</span>
       </div>
       <div class="shots">
-        <figure class="a"><img src="img/today.jpg" alt="The Today tab with the next scene" width="506" height="1046"></figure>
-        <figure class="b"><img src="img/scene.jpg" alt="A scene with its character card" width="506" height="1046"></figure>
+        <figure class="a"><img src="img/today.jpg" alt="The Today tab with the next scene" data-ia="alt_today" width="506" height="1046"></figure>
+        <figure class="b"><img src="img/scene.jpg" alt="A scene with its character card" data-ia="alt_scene" width="506" height="1046"></figure>
       </div>
     </div>
   </div>
@@ -240,28 +247,28 @@ footer a { color: #fff; font-weight: 700; }
 <main>
   <section class="how wrap" id="how">
     <div class="how-grid">
-      <h2>How a scene goes.</h2>
+      <h2 data-i="how_h">How a scene goes.</h2>
       <ol class="steps">
-        <li><h3>You get a role.</h3><p><q>You are at the bakery. You want bread, and the baker asks if it should be sliced.</q> Every scene is a moment you will meet in Norway, from the checkout to the parents' meeting.</p></li>
-        <li><h3>You say it. Out loud.</h3><p>Your line is on the screen with its meaning in your language. Listen first if you like, then say it like you would there. No typing, no word puzzles.</p></li>
-        <li><h3>Your phone gives you stars.<span class="stars" aria-label="three stars">★★★</span></h3><p>A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.</p></li>
-        <li><h3>Norway answers back.</h3><p>The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.</p></li>
+        <li><h3 data-i="s1_h">You get a role.</h3><p><q data-i="s1_q">You are at the bakery. You want bread, and the baker asks if it should be sliced.</q> <span data-i="s1_p">Every scene is a moment you will meet in Norway, from the checkout to the parents' meeting.</span></p></li>
+        <li><h3 data-i="s2_h">You say it. Out loud.</h3><p data-i="s2_p">Your line is on the screen with its meaning in your language. Listen first if you like, then say it like you would there. No typing, no word puzzles.</p></li>
+        <li><h3><span data-i="s3_h">Your phone gives you stars.</span><span class="stars" aria-label="three stars" data-il="s3_stars">★★★</span></h3><p data-i="s3_p">A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.</p></li>
+        <li><h3 data-i="s4_h">Norway answers back.</h3><p data-i="s4_p">The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.</p></li>
       </ol>
     </div>
   </section>
 
   <section class="heard wrap" id="heard">
     <div class="heard-head">
-      <h2>Overheard<br>in Norway.</h2>
-      <p class="lede">Four real moments from the app, voiced like in the app. Tap the first line and the reply follows. Then picture yourself saying it.</p>
+      <h2 data-i="heard_h">Overheard<br>in Norway.</h2>
+      <p class="lede" data-i="heard_p">Four real moments from the app, voiced like in the app. Tap the first line and the reply follows. Then picture yourself saying it.</p>
     </div>
     <div class="exs" id="exs"></div>
   </section>
 
   <section class="street wrap" id="street">
     <div class="heard-head">
-      <h2>Book<br>vs street.</h2>
-      <p class="lede">Ten years in Norway, and nobody has asked me if the bear drinks milk. Tap a card to see what people really say.</p>
+      <h2 data-i="street_h">Book<br>vs street.</h2>
+      <p class="lede" data-i="street_p">Ten years in Norway, and nobody has asked me if the bear drinks milk. Tap a card to see what people really say.</p>
     </div>
     <div class="cards" id="cards"></div>
     <p class="sr" aria-live="polite" id="flipsay"></p>
@@ -269,8 +276,8 @@ footer a { color: #fff; font-weight: 700; }
 
   <section class="fam" aria-labelledby="fam-h">
     <div class="wrap">
-      <h2 id="fam-h">A Norway that looks familiar.</h2>
-      <p class="lede">Shops and apps in the scenes are friendly parodies, so you can laugh at the checkout before you get there.</p>
+      <h2 id="fam-h" data-i="fam_h">A Norway that looks familiar.</h2>
+      <p class="lede" data-i="fam_p">Shops and apps in the scenes are friendly parodies, so you can laugh at the checkout before you get there.</p>
       <div class="stickers">
         <img src="img/rema-1100.png" alt="Rema 1100"><img src="img/eurokrise.png" alt="Eurokrise"><img src="img/kvikk-kat.png" alt="Kvikk Kat">
         <img src="img/donaldtrumpf-kort.png" alt="DonaldTrumpf card"><img src="img/ikkea.png" alt="IKKEA"><img src="img/tindr.png" alt="Tindr">
@@ -279,70 +286,960 @@ footer a { color: #fff; font-weight: 700; }
   </section>
 
   <section class="langs-sec wrap" id="langs">
-    <h2>Explained in <span class="scribble">your<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 50 12, 90 2, 130 7 S 180 11, 197 6"/></svg></span> language.</h2>
-    <p class="lede">Every line comes with its meaning in one of six languages. Pick the one you think in.</p>
-    <div class="langs">
-      <div class="lang" lang="es"><span class="code">ES <span>Spanish</span></span><span class="name">Español</span><span class="hi">¡Hola!</span></div>
-      <div class="lang" lang="en"><span class="code">EN <span>English</span></span><span class="name">English</span><span class="hi">Hello there.</span></div>
-      <div class="lang" lang="pl"><span class="code">PL <span>Polish</span></span><span class="name">Polski</span><span class="hi">Cześć!</span></div>
-      <div class="lang" lang="uk"><span class="code">UK <span>Ukrainian</span></span><span class="name long">Українська</span><span class="hi">Привіт!</span></div>
-      <div class="lang" lang="lt"><span class="code">LT <span>Lithuanian</span></span><span class="name">Lietuvių</span><span class="hi">Labas!</span></div>
-      <div class="lang" lang="so"><span class="code">SO <span>Somali</span></span><span class="name">Soomaali</span><span class="hi">Iska warran?</span></div>
+    <h2><span data-i="langs_a">Explained in </span><span class="scribble"><span data-i="langs_word">your</span><svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 8 C 50 12, 90 2, 130 7 S 180 11, 197 6"/></svg></span><span data-i="langs_b"> language.</span></h2>
+    <p class="lede" data-i="langs_p">Every line comes with its meaning in one of six languages. Pick the one you think in, and this page switches to it too.</p>
+    <div class="langs" id="langpick">
+      <button type="button" class="lang" data-l="es" aria-pressed="false"><span class="code">ES <span data-i="ln_es">Spanish</span></span><span lang="es" class="name">Español</span><span lang="es" class="hi">¡Hola!</span></button>
+      <button type="button" class="lang" data-l="en" aria-pressed="false"><span class="code">EN <span data-i="ln_en">English</span></span><span lang="en" class="name">English</span><span lang="en" class="hi">Hello there.</span></button>
+      <button type="button" class="lang" data-l="pl" aria-pressed="false"><span class="code">PL <span data-i="ln_pl">Polish</span></span><span lang="pl" class="name">Polski</span><span lang="pl" class="hi">Cześć!</span></button>
+      <button type="button" class="lang" data-l="uk" aria-pressed="false"><span class="code">UK <span data-i="ln_uk">Ukrainian</span></span><span lang="uk" class="name long">Українська</span><span lang="uk" class="hi">Привіт!</span></button>
+      <button type="button" class="lang" data-l="lt" aria-pressed="false"><span class="code">LT <span data-i="ln_lt">Lithuanian</span></span><span lang="lt" class="name">Lietuvių</span><span lang="lt" class="hi">Labas!</span></button>
+      <button type="button" class="lang" data-l="so" aria-pressed="false"><span class="code">SO <span data-i="ln_so">Somali</span></span><span lang="so" class="name">Soomaali</span><span lang="so" class="hi">Iska warran?</span></button>
     </div>
   </section>
 
   <section class="end wrap">
-    <h2>Say it out loud.<br>Norway is listening.</h2>
-    <span class="soon">Coming soon to Google Play and the App Store</span>
+    <h2 data-i="end_h">Say it out loud.<br>Norway is listening.</h2>
+    <span class="soon" data-i="soon">Coming soon to Google Play and the App Store</span>
   </section>
 </main>
 
 <footer>
   <div class="wrap">
-    <span>Heianorsk · made in Norway by an immigrant, for immigrants</span>
-    <nav><a href="privacy.html">Privacy</a><a href="https://github.com/eried/heianorsk/issues/new/choose">Feedback</a></nav>
+    <span data-i="footer">Heianorsk · made in Norway by an immigrant, for immigrants</span>
+    <nav><a href="privacy.html" data-i="f_privacy">Privacy</a><a href="https://github.com/eried/heianorsk/issues/new/choose" data-i="f_feedback">Feedback</a></nav>
   </div>
 </footer>
 
 <script>
-const R = [
-  ['Does a toothbrush have feelings?', 'Hvordan går det?'],
-  ['Excuse me, I am an apple.', 'Unnskyld, hvor er toalettet?'],
-  ['The bear drinks milk.', 'Kaffe med melk, takk.'],
-  ['I am eating bread and crying on the floor.', 'Takk for maten!'],
-  ['The man eats ice cream with mustard.', 'Pølse med sennep, takk.'],
-];
+// texts per language; Norwegian lines and audio stay in the code below
+const T = /*I18N*/{
+ "en": {
+  "meta_title": "Heianorsk · Speak real Norwegian",
+  "meta_desc": "Speak real Norwegian out loud. Short real-life scenes with stars for your pronunciation, scored on your phone. In Spanish, English, Polish, Ukrainian, Lithuanian and Somali.",
+  "nav_how": "How it works",
+  "nav_listen": "Listen",
+  "nav_street": "Book vs street",
+  "nav_langs": "Languages",
+  "h1": "Learn what people in Norway actually say.",
+  "lead": "Short real-life scenes: the checkout, the bus, the doctor, the dugnad. You speak out loud, and your phone gives you stars for your pronunciation.",
+  "th_book": "The book says",
+  "th_norway": "Norway says",
+  "soon": "Coming soon to Google Play and the App Store",
+  "alt_today": "The Today tab with the next scene",
+  "alt_scene": "A scene with its character card",
+  "how_h": "How a scene goes.",
+  "s1_h": "You get a role.",
+  "s1_q": "You are at the bakery. You want bread, and the baker asks if it should be sliced.",
+  "s1_p": "Every scene is a moment you will meet in Norway, from the checkout to the parents' meeting.",
+  "s2_h": "You say it. Out loud.",
+  "s2_p": "Your line is on the screen with its meaning in your language. Listen first if you like, then say it like you would there. No typing, no word puzzles.",
+  "s3_h": "Your phone gives you stars.",
+  "s3_stars": "three stars",
+  "s3_p": "A speech model on your phone gives up to three stars and points at the sounds that matter, like takk and tak. Your voice never leaves the phone.",
+  "s4_h": "Norway answers back.",
+  "s4_p": "The other person replies, sometimes in their own dialect, and the scene moves on. Tap a reply to see it written and translated.",
+  "heard_h": "Overheard\nin Norway.",
+  "heard_p": "Four real moments from the app, voiced like in the app. Tap the first line and the reply follows. Then picture yourself saying it.",
+  "street_h": "Book\nvs street.",
+  "street_p": "Ten years in Norway, and nobody has asked me if the bear drinks milk. Tap a card to see what people really say.",
+  "tap_flip": "Tap to flip",
+  "norway_says": "Norway says",
+  "fam_h": "A Norway that looks familiar.",
+  "fam_p": "Shops and apps in the scenes are friendly parodies, so you can laugh at the checkout before you get there.",
+  "langs_a": "Explained in ",
+  "langs_word": "your",
+  "langs_b": " language.",
+  "langs_p": "Every line comes with its meaning in one of six languages. Pick the one you think in, and this page switches to it too.",
+  "ln_es": "Spanish",
+  "ln_en": "English",
+  "ln_pl": "Polish",
+  "ln_uk": "Ukrainian",
+  "ln_lt": "Lithuanian",
+  "ln_so": "Somali",
+  "end_h": "Say it out loud.\nNorway is listening.",
+  "footer": "Heianorsk · made in Norway by an immigrant, for immigrants",
+  "f_privacy": "Privacy",
+  "f_feedback": "Feedback",
+  "jab": [
+   "Does a toothbrush have feelings?",
+   "Excuse me, I am an apple.",
+   "The bear drinks milk.",
+   "I am eating bread and crying on the floor.",
+   "The man eats ice cream with mustard."
+  ],
+  "heard": [
+   [
+    "Bus stop, Bergen",
+    "raining, obviously",
+    "You, from Syria",
+    "So when does summer come? I have shorts in the wardrobe.",
+    "A neighbour, in Bergen dialect",
+    "Summer was last year, on a Tuesday. I was at work."
+   ],
+   [
+    "Barnehage pick-up",
+    "one letter matters",
+    "You, picking up your son",
+    "Did he pray for Olav? How sweet!",
+    "The barnehage staff",
+    "No, bit. With his teeth. On the arm."
+   ],
+   [
+    "A used Volvo, Trondheim",
+    "from Finnes.no",
+    "You, the buyer",
+    "It is nice. But there is rust over the back wheel.",
+    "The seller",
+    "That is not rust. That is character."
+   ],
+   [
+    "Christmas Eve, Bergen",
+    "you brought a poncho",
+    "Your mother-in-law",
+    "Oh, a poncho! How... practical!",
+    "You, from Colombia",
+    "Practical? Is that good, or is it what you say about ugly things?"
+   ]
+  ],
+  "cards": [
+   [
+    "Textbook, chapter 1",
+    "Goodbye, have a good one.",
+    "",
+    "Bye! Talk soon!",
+    "Over your shoulder, already halfway out the door."
+   ],
+   [
+    "Phrasebook",
+    "How much does it cost?",
+    "",
+    "What does it come to?",
+    "At the till, card in hand. The price is on the screen anyway."
+   ],
+   [
+    "Textbook, chapter 2",
+    "I do not understand.",
+    "",
+    "Don't get it.",
+    "Forstå lives in the book. Skjønne lives in the mouth."
+   ],
+   [
+    "Uglingo, lesson 3",
+    "The bear drinks milk.",
+    "Nobody in Norway has ever said this. Try:",
+    "Do you have a DonaldTrumpf card?",
+    "Asked at every checkout. Every single one."
+   ],
+   [
+    "Textbook, chapter 1",
+    "Yes.",
+    "",
+    "Yes. Go on. I agree.",
+    "A quick gasp inwards. Not a medical event, just agreement."
+   ],
+   [
+    "Language app",
+    "It was nice to meet you.",
+    "",
+    "Nice!",
+    "One word, mid-handshake, right after the names."
+   ],
+   [
+    "Phrasebook",
+    "Please.",
+    "",
+    "Can I get a bun, thanks?",
+    "Please goes at the end and sounds like takk. Vær så snill is for begging."
+   ],
+   [
+    "Textbook, chapter 4",
+    "Thanks for the food.",
+    "The book got this one right.",
+    "Thanks for the food.",
+    "Say it after every meal. Every time. Someone will notice."
+   ]
+  ]
+ },
+ "es": {
+  "meta_title": "Heianorsk · Habla noruego de verdad",
+  "meta_desc": "Habla noruego de verdad, en voz alta. Escenas cortas de la vida real con estrellas para tu pronunciación, calificadas en tu teléfono. En español, inglés, polaco, ucraniano, lituano y somalí.",
+  "nav_how": "Cómo funciona",
+  "nav_listen": "Escucha",
+  "nav_street": "Libro vs. calle",
+  "nav_langs": "Idiomas",
+  "h1": "Aprende lo que de verdad se dice en Noruega.",
+  "lead": "Escenas cortas de la vida real: la caja del súper, el bus, el médico, el dugnad. Hablas en voz alta y tu teléfono te da estrellas por tu pronunciación.",
+  "th_book": "El libro dice",
+  "th_norway": "Noruega dice",
+  "soon": "Muy pronto en Google Play y en la App Store",
+  "alt_today": "La pestaña Hoy con la próxima escena",
+  "alt_scene": "Una escena con su tarjeta de personaje",
+  "how_h": "Así va una escena.",
+  "s1_h": "Te toca un papel.",
+  "s1_q": "Estás en la panadería. Quieres pan, y el panadero te pregunta si te lo corta en rebanadas.",
+  "s1_p": "Cada escena es un momento que vas a vivir en Noruega, de la caja del súper a la reunión de padres.",
+  "s2_h": "Lo dices. En voz alta.",
+  "s2_p": "Tu frase aparece en pantalla con su significado en tu idioma. Escúchala primero si quieres y luego dila como la dirías allá. Nada de escribir, nada de rompecabezas de palabras.",
+  "s3_h": "Tu teléfono te da estrellas.",
+  "s3_stars": "tres estrellas",
+  "s3_p": "Un modelo de voz en tu teléfono te da hasta tres estrellas y te señala los sonidos que importan, como takk y tak. Tu voz nunca sale del teléfono.",
+  "s4_h": "Noruega te contesta.",
+  "s4_p": "La otra persona responde, a veces en su propio dialecto, y la escena sigue. Toca una respuesta para verla escrita y traducida.",
+  "heard_h": "Oído\nen Noruega.",
+  "heard_p": "Cuatro momentos reales de la app, con las mismas voces que en la app. Toca la primera frase y la respuesta viene sola. Luego imagínate diciéndola tú.",
+  "street_h": "Libro\nvs. calle.",
+  "street_p": "Diez años en Noruega y nadie me ha preguntado si el oso toma leche. Toca una tarjeta para ver lo que la gente dice de verdad.",
+  "tap_flip": "Toca para voltear",
+  "norway_says": "Noruega dice",
+  "fam_h": "Una Noruega que te suena.",
+  "fam_p": "Las tiendas y apps de las escenas son parodias amistosas, para que te rías en la caja antes de llegar a ella.",
+  "langs_a": "Explicado en ",
+  "langs_word": "tu",
+  "langs_b": " idioma.",
+  "langs_p": "Cada frase viene con su significado en uno de seis idiomas. Elige el idioma en el que piensas, y esta página también se cambia a ese idioma.",
+  "ln_es": "Español",
+  "ln_en": "Inglés",
+  "ln_pl": "Polaco",
+  "ln_uk": "Ucraniano",
+  "ln_lt": "Lituano",
+  "ln_so": "Somalí",
+  "end_h": "Dilo en voz alta.\nNoruega te escucha.",
+  "footer": "Heianorsk · hecho en Noruega por un inmigrante, para inmigrantes",
+  "f_privacy": "Privacidad",
+  "f_feedback": "Comentarios",
+  "jab": [
+   "¿Un cepillo de dientes tiene sentimientos?",
+   "Disculpe, soy una manzana.",
+   "El oso toma leche.",
+   "Estoy comiendo pan y llorando en el piso.",
+   "El hombre come helado con mostaza."
+  ],
+  "heard": [
+   [
+    "Parada de bus, Bergen",
+    "lloviendo, cómo no",
+    "Tú, de Siria",
+    "¿Y cuándo llega el verano? Tengo shorts esperando en el armario.",
+    "Un vecino, en dialecto de Bergen",
+    "El verano fue el año pasado, un martes. Yo estaba trabajando."
+   ],
+   [
+    "A la salida del barnehage",
+    "una letra lo cambia todo",
+    "Tú, recogiendo a tu hijo",
+    "¿Rezó por Olav? ¡Qué tierno!",
+    "El personal del barnehage",
+    "No, mordió. Con los dientes. En el brazo."
+   ],
+   [
+    "Un Volvo usado, Trondheim",
+    "de Finnes.no",
+    "Tú, comprando",
+    "Está bonito. Pero tiene óxido encima de la rueda trasera.",
+    "El vendedor",
+    "Eso no es óxido. Es carácter."
+   ],
+   [
+    "Nochebuena, Bergen",
+    "llevaste un poncho",
+    "Tu suegra",
+    "¡Ay, un poncho! Qué... ¡práctico!",
+    "Tú, de Colombia",
+    "¿Práctico? ¿Eso es bueno, o es lo que se dice de las cosas feas?"
+   ]
+  ],
+  "cards": [
+   [
+    "Libro de texto, capítulo 1",
+    "Adiós, que te vaya bien.",
+    "",
+    "¡Nos vemos! ¡Hablamos!",
+    "Por encima del hombro, ya con un pie afuera."
+   ],
+   [
+    "Guía de conversación",
+    "¿Cuánto cuesta?",
+    "",
+    "¿Cuánto es?",
+    "En la caja, con la tarjeta en la mano. De todos modos el precio ya está en la pantalla."
+   ],
+   [
+    "Libro de texto, capítulo 2",
+    "No entiendo.",
+    "",
+    "No capto.",
+    "Forstå vive en el libro. Skjønne vive en la boca."
+   ],
+   [
+    "Uglingo, lección 3",
+    "El oso toma leche.",
+    "Nadie en Noruega ha dicho esto jamás. Prueba con:",
+    "¿Tienes tarjeta DonaldTrumpf?",
+    "Te lo preguntan en cada caja. En todas, sin excepción."
+   ],
+   [
+    "Libro de texto, capítulo 1",
+    "Sí.",
+    "",
+    "Sí. Sigue. Estoy de acuerdo.",
+    "Una inhalación rápida. No es una urgencia médica, es un sí."
+   ],
+   [
+    "App de idiomas",
+    "Fue un gusto conocerte.",
+    "",
+    "¡Un gusto!",
+    "Una palabra, en pleno apretón de manos, justo después de los nombres."
+   ],
+   [
+    "Guía de conversación",
+    "Por favor.",
+    "",
+    "¿Me da un bollo, gracias?",
+    "El por favor va al final y suena a takk. Vær så snill es para suplicar."
+   ],
+   [
+    "Libro de texto, capítulo 4",
+    "Gracias por la comida.",
+    "Aquí el libro acertó.",
+    "Gracias por la comida.",
+    "Dilo después de cada comida. Siempre. Alguien lo va a notar."
+   ]
+  ]
+ },
+ "pl": {
+  "meta_title": "Heianorsk · Mów po norwesku jak w Norwegii",
+  "meta_desc": "Mów po norwesku na głos, tak jak naprawdę się mówi. Krótkie sceny z życia i gwiazdki za wymowę, oceniane w twoim telefonie. Po hiszpańsku, angielsku, polsku, ukraińsku, litewsku i somalijsku.",
+  "nav_how": "Jak to działa",
+  "nav_listen": "Posłuchaj",
+  "nav_street": "Podręcznik a ulica",
+  "nav_langs": "Języki",
+  "h1": "Ucz się tego, co w Norwegii naprawdę się mówi.",
+  "lead": "Krótkie sceny z życia: kasa w sklepie, autobus, lekarz, dugnad. Mówisz na głos, a telefon daje ci gwiazdki za wymowę.",
+  "th_book": "Podręcznik mówi",
+  "th_norway": "Norwegia mówi",
+  "soon": "Wkrótce w Google Play i App Store",
+  "alt_today": "Zakładka Dziś z następną sceną",
+  "alt_scene": "Scena z kartą postaci",
+  "how_h": "Jak wygląda scena.",
+  "s1_h": "Dostajesz rolę.",
+  "s1_q": "Jesteś w piekarni. Chcesz chleb, a piekarz pyta, czy go pokroić.",
+  "s1_p": "Każda scena to chwila, którą przeżyjesz w Norwegii, od kasy w sklepie po wywiadówkę.",
+  "s2_h": "Mówisz. Na głos.",
+  "s2_p": "Twoja kwestia jest na ekranie, a obok jej znaczenie w twoim języku. Jeśli chcesz, najpierw posłuchaj, a potem powiedz ją tak, jak mówi się tam na miejscu. Bez pisania, bez łamigłówek ze słówek.",
+  "s3_h": "Telefon daje ci gwiazdki.",
+  "s3_stars": "trzy gwiazdki",
+  "s3_p": "Model mowy w twoim telefonie daje do trzech gwiazdek i wskazuje dźwięki, które mają znaczenie, jak w takk i tak. Twój głos nigdy nie opuszcza telefonu.",
+  "s4_h": "Norwegia odpowiada.",
+  "s4_p": "Druga osoba odpowiada, czasem we własnym dialekcie, i scena toczy się dalej. Dotknij odpowiedzi, żeby zobaczyć ją zapisaną i przetłumaczoną.",
+  "heard_h": "Podsłuchane\nw Norwegii.",
+  "heard_p": "Cztery prawdziwe chwile z aplikacji, z głosami jak w aplikacji. Dotknij pierwszej kwestii, a odpowiedź pójdzie zaraz po niej. Potem wyobraź sobie, że to ty ją mówisz.",
+  "street_h": "Podręcznik\na ulica.",
+  "street_p": "Dziesięć lat w Norwegii i nikt mnie jeszcze nie zapytał, czy niedźwiedź pije mleko. Dotknij karty, żeby zobaczyć, co ludzie naprawdę mówią.",
+  "tap_flip": "Dotknij, by odwrócić",
+  "norway_says": "Norwegia mówi",
+  "fam_h": "Norwegia, która wygląda znajomo.",
+  "fam_p": "Sklepy i aplikacje w scenach to życzliwe parodie, więc możesz pośmiać się z kasy, zanim w ogóle do niej dojdziesz.",
+  "langs_a": "Wyjaśnione w ",
+  "langs_word": "twoim",
+  "langs_b": " języku.",
+  "langs_p": "Każda kwestia ma swoje znaczenie w jednym z sześciu języków. Wybierz ten, w którym myślisz, a ta strona też się na niego przełączy.",
+  "ln_es": "Hiszpański",
+  "ln_en": "Angielski",
+  "ln_pl": "Polski",
+  "ln_uk": "Ukraiński",
+  "ln_lt": "Litewski",
+  "ln_so": "Somalijski",
+  "end_h": "Powiedz to na głos.\nNorwegia słucha.",
+  "footer": "Heianorsk · zrobione w Norwegii przez imigranta, dla imigrantów",
+  "f_privacy": "Prywatność",
+  "f_feedback": "Opinie",
+  "jab": [
+   "Czy szczoteczka do zębów ma uczucia?",
+   "Przepraszam, jestem jabłkiem.",
+   "Niedźwiedź pije mleko.",
+   "Jem chleb i płaczę na podłodze.",
+   "Mężczyzna je lody z musztardą."
+  ],
+  "heard": [
+   [
+    "Przystanek, Bergen",
+    "pada, a jakże",
+    "Ty, z Syrii",
+    "No to kiedy przyjdzie lato? Mam szorty w szafie.",
+    "Sąsiad, w dialekcie z Bergen",
+    "Lato było w zeszłym roku, we wtorek. Byłem w pracy."
+   ],
+   [
+    "Odbiór z barnehage",
+    "jedna litera robi różnicę",
+    "Ty, po syna",
+    "Modlił się za Olava? Jakie to słodkie!",
+    "Personel barnehage",
+    "Nie, ugryzł. Zębami. W ramię."
+   ],
+   [
+    "Używane volvo, Trondheim",
+    "z Finnes.no",
+    "Ty, przy zakupie",
+    "Ładne. Ale nad tylnym kołem jest rdza.",
+    "Sprzedawca",
+    "To nie rdza. To charakter."
+   ],
+   [
+    "Wigilia, Bergen",
+    "a ty z ponczem",
+    "Twoja teściowa",
+    "Och, ponczo! Jakie... praktyczne!",
+    "Ty, z Kolumbii",
+    "Praktyczne? To dobrze, czy tak się mówi o brzydkich rzeczach?"
+   ]
+  ],
+  "cards": [
+   [
+    "Podręcznik, rozdział 1",
+    "Do widzenia, wszystkiego dobrego.",
+    "",
+    "Pa! Do usłyszenia!",
+    "Przez ramię, już w połowie za drzwiami."
+   ],
+   [
+    "Rozmówki",
+    "Ile to kosztuje?",
+    "",
+    "Ile płacę?",
+    "Przy kasie, z kartą w ręku. Cena i tak jest na ekranie."
+   ],
+   [
+    "Podręcznik, rozdział 2",
+    "Nie rozumiem.",
+    "",
+    "Nie kumam.",
+    "Forstå mieszka w podręczniku. Skjønne mieszka w ustach."
+   ],
+   [
+    "Uglingo, lekcja 3",
+    "Niedźwiedź pije mleko.",
+    "Nikt w Norwegii nigdy tego nie powiedział. Spróbuj:",
+    "Masz kartę DonaldTrumpf?",
+    "Pytają o to przy każdej kasie. Przy każdej, bez wyjątku."
+   ],
+   [
+    "Podręcznik, rozdział 1",
+    "Tak.",
+    "",
+    "Tak. Mów dalej. Zgadzam się.",
+    "Szybki wdech. To nie sprawa dla lekarza, tylko zgoda."
+   ],
+   [
+    "Aplikacja do nauki języków",
+    "Miło było cię poznać.",
+    "",
+    "Miło!",
+    "Jedno słowo, w trakcie uścisku dłoni, zaraz po imionach."
+   ],
+   [
+    "Rozmówki",
+    "Proszę.",
+    "",
+    "Mogę dostać bułkę, dzięki?",
+    "„Proszę” stawia się na końcu i brzmi jak takk. Vær så snill zostaw na błaganie."
+   ],
+   [
+    "Podręcznik, rozdział 4",
+    "Dziękuję za jedzenie.",
+    "Tu podręcznik akurat ma rację.",
+    "Dziękuję za jedzenie.",
+    "Mów to po każdym posiłku. Za każdym razem. Ktoś to zauważy."
+   ]
+  ]
+ },
+ "uk": {
+  "meta_title": "Heianorsk · Говори справжньою норвезькою",
+  "meta_desc": "Говори норвезькою вголос, як говорять насправді. Короткі сцени з життя і зірки за вимову, які ставить твій телефон. Іспанською, англійською, польською, українською, литовською та сомалійською.",
+  "nav_how": "Як це працює",
+  "nav_listen": "Послухати",
+  "nav_street": "Підручник проти вулиці",
+  "nav_langs": "Мови",
+  "h1": "Вчи те, що в Норвегії кажуть насправді.",
+  "lead": "Короткі сцени з життя: каса, автобус, лікар, dugnad. Ти говориш уголос, а телефон дає тобі зірки за вимову.",
+  "th_book": "Підручник каже",
+  "th_norway": "Норвегія каже",
+  "soon": "Незабаром у Google Play та App Store",
+  "alt_today": "Вкладка «Сьогодні» з наступною сценою",
+  "alt_scene": "Сцена з карткою персонажа",
+  "how_h": "Як проходить сцена.",
+  "s1_h": "Ти отримуєш роль.",
+  "s1_q": "Ти в пекарні. Хочеш хліба, а пекар питає, чи його нарізати.",
+  "s1_p": "Кожна сцена показує момент, який чекає на тебе в Норвегії: від каси до батьківських зборів.",
+  "s2_h": "Ти це кажеш. Уголос.",
+  "s2_p": "Твоя репліка на екрані, а поруч її значення твоєю мовою. Якщо хочеш, спершу послухай, а тоді скажи так, як сказали б там. Жодного набору тексту, жодних словесних головоломок.",
+  "s3_h": "Телефон дає тобі зірки.",
+  "s3_stars": "три зірки",
+  "s3_p": "Модель мовлення у твоєму телефоні ставить до трьох зірок і вказує на звуки, які мають значення, як у takk і tak. Твій голос ніколи не залишає телефон.",
+  "s4_h": "Норвегія відповідає.",
+  "s4_p": "Інша людина відповідає, інколи своїм діалектом, і сцена йде далі. Торкнися відповіді, щоб побачити її текст і переклад.",
+  "heard_h": "Почуто\nв Норвегії.",
+  "heard_p": "Чотири справжні моменти із застосунку, озвучені як у застосунку. Торкнися першої репліки, і відповідь пролунає слідом. А тоді уяви, що це кажеш ти.",
+  "street_h": "Підручник\nпроти вулиці.",
+  "street_p": "Десять років у Норвегії, і ніхто жодного разу не спитав мене, чи п’є ведмідь молоко. Торкнися картки, щоб побачити, що люди кажуть насправді.",
+  "tap_flip": "Торкнися, щоб перевернути",
+  "norway_says": "Норвегія каже",
+  "fam_h": "Норвегія, яка здається знайомою.",
+  "fam_p": "Магазини й застосунки в сценах є дружніми пародіями, тож можна посміятися з каси ще до того, як ти до неї дійдеш.",
+  "langs_a": "Пояснено ",
+  "langs_word": "твоєю",
+  "langs_b": " мовою.",
+  "langs_p": "Кожна репліка має значення однією з шести мов. Обери ту, якою думаєш, і ця сторінка теж перейде на неї.",
+  "ln_es": "Іспанська",
+  "ln_en": "Англійська",
+  "ln_pl": "Польська",
+  "ln_uk": "Українська",
+  "ln_lt": "Литовська",
+  "ln_so": "Сомалійська",
+  "end_h": "Скажи це вголос.\nНорвегія слухає.",
+  "footer": "Heianorsk · зроблено в Норвегії іммігрантом для іммігрантів",
+  "f_privacy": "Конфіденційність",
+  "f_feedback": "Відгуки",
+  "jab": [
+   "Чи має зубна щітка почуття?",
+   "Перепрошую, я яблуко.",
+   "Ведмідь п’є молоко.",
+   "Я їм хліб і плачу на підлозі.",
+   "Чоловік їсть морозиво з гірчицею."
+  ],
+  "heard": [
+   [
+    "Зупинка, Берген",
+    "дощ, звісно ж",
+    "Ти, із Сирії",
+    "То коли вже буде літо? У мене шорти в шафі чекають.",
+    "Сусід, бергенським діалектом",
+    "Літо було торік, у вівторок. Я був на роботі."
+   ],
+   [
+    "Забираємо з barnehage",
+    "одна літера все змінює",
+    "Ти, по сина",
+    "Він молився за Олава? Як мило!",
+    "Персонал barnehage",
+    "Ні, вкусив. Зубами. За руку."
+   ],
+   [
+    "Вживане Volvo, Тронгейм",
+    "з Finnes.no",
+    "Ти, купуєш",
+    "Гарна машина. Але над заднім колесом іржа.",
+    "Продавець",
+    "Це не іржа. Це характер."
+   ],
+   [
+    "Святвечір, Берген",
+    "а ти з пончо",
+    "Твоя теща",
+    "О, пончо! Яке... практичне!",
+    "Ти, з Колумбії",
+    "Практичне? Це добре чи так кажуть про негарні речі?"
+   ]
+  ],
+  "cards": [
+   [
+    "Підручник, розділ 1",
+    "До побачення, усього доброго.",
+    "",
+    "Бувай! До зв’язку!",
+    "Через плече, вже однією ногою за дверима."
+   ],
+   [
+    "Розмовник",
+    "Скільки це коштує?",
+    "",
+    "Скільки з мене?",
+    "На касі, з карткою в руці. Ціна й так на екрані."
+   ],
+   [
+    "Підручник, розділ 2",
+    "Я не розумію.",
+    "",
+    "Не доганяю.",
+    "Forstå живе в підручнику. Skjønne живе на язиці."
+   ],
+   [
+    "Uglingo, урок 3",
+    "Ведмідь п’є молоко.",
+    "Ніхто в Норвегії ніколи такого не казав. Спробуй:",
+    "У тебе є картка DonaldTrumpf?",
+    "Питають на кожній касі. На кожній, без винятку."
+   ],
+   [
+    "Підручник, розділ 1",
+    "Так.",
+    "",
+    "Так. Кажи далі. Саме так.",
+    "Короткий вдих. Лікаря не треба, це просто згода."
+   ],
+   [
+    "Мовний застосунок",
+    "Приємно було познайомитися.",
+    "",
+    "Приємно!",
+    "Одне слово, посеред рукостискання, одразу після імен."
+   ],
+   [
+    "Розмовник",
+    "Будь ласка.",
+    "",
+    "Можна булочку, дякую?",
+    "«Будь ласка» ставлять у кінці, і звучить воно як takk. Vær så snill залиш для благань."
+   ],
+   [
+    "Підручник, розділ 4",
+    "Дякую за їжу.",
+    "Тут підручник не помилився.",
+    "Дякую за їжу.",
+    "Кажи це після кожної трапези. Щоразу. Хтось помітить."
+   ]
+  ]
+ },
+ "lt": {
+  "meta_title": "Heianorsk · Kalbėk tikra norvegų kalba",
+  "meta_desc": "Kalbėk norviškai garsiai, taip, kaip kalbama iš tikrųjų. Trumpos gyvenimiškos scenos ir žvaigždutės už tarimą, vertinamą tavo telefone. Ispanų, anglų, lenkų, ukrainiečių, lietuvių ir somalių kalbomis.",
+  "nav_how": "Kaip tai veikia",
+  "nav_listen": "Paklausyk",
+  "nav_street": "Vadovėlis prieš gatvę",
+  "nav_langs": "Kalbos",
+  "h1": "Mokykis to, ką Norvegijoje žmonės sako iš tikrųjų.",
+  "lead": "Trumpos gyvenimiškos scenos: kasa, autobusas, gydytojas, dugnad. Kalbi garsiai, o telefonas tau duoda žvaigždučių už tarimą.",
+  "th_book": "Vadovėlis sako",
+  "th_norway": "Norvegija sako",
+  "soon": "Jau netrukus Google Play ir App Store",
+  "alt_today": "Skirtukas „Šiandien“ su kita scena",
+  "alt_scene": "Scena su veikėjo kortele",
+  "how_h": "Kaip vyksta scena.",
+  "s1_h": "Gauni vaidmenį.",
+  "s1_q": "Esi kepykloje. Nori duonos, o kepėjas klausia, ar ją supjaustyti.",
+  "s1_p": "Kiekviena scena yra akimirka, kurią patirsi Norvegijoje: nuo kasos iki tėvų susirinkimo.",
+  "s2_h": "Pasakai tai. Garsiai.",
+  "s2_p": "Tavo eilutė ekrane, o šalia jos reikšmė tavo kalba. Jei nori, pirma paklausyk, tada pasakyk taip, kaip pasakytum ten. Jokio rašymo, jokių žodžių galvosūkių.",
+  "s3_h": "Telefonas tau duoda žvaigždučių.",
+  "s3_stars": "trys žvaigždutės",
+  "s3_p": "Kalbos atpažinimo modelis tavo telefone skiria iki trijų žvaigždučių ir parodo svarbius garsus, pavyzdžiui, takk ir tak. Tavo balsas niekada neiškeliauja iš telefono.",
+  "s4_h": "Norvegija atsako.",
+  "s4_p": "Kitas žmogus atsako, kartais savo tarme, ir scena tęsiasi. Bakstelėk atsakymą, kad pamatytum jį parašytą ir išverstą.",
+  "heard_h": "Nugirsta\nNorvegijoje.",
+  "heard_p": "Keturios tikros akimirkos iš programėlės, įgarsintos kaip programėlėje. Bakstelėk pirmą eilutę, ir atsakymas nuskambės iškart po jos. Tada įsivaizduok, kad tai sakai tu.",
+  "street_h": "Vadovėlis\nprieš gatvę.",
+  "street_p": "Dešimt metų Norvegijoje, ir niekas manęs nė karto nepaklausė, ar meška geria pieną. Bakstelėk kortelę ir pamatysi, ką žmonės sako iš tikrųjų.",
+  "tap_flip": "Bakstelėk, kad apverstum",
+  "norway_says": "Norvegija sako",
+  "fam_h": "Norvegija, kuri atrodo pažįstama.",
+  "fam_p": "Parduotuvės ir programėlės scenose yra draugiškos parodijos, tad prie kasos gali pasijuokti dar prieš tau ten patenkant.",
+  "langs_a": "Paaiškinta ",
+  "langs_word": "tavo",
+  "langs_b": " kalba.",
+  "langs_p": "Kiekviena eilutė turi reikšmę viena iš šešių kalbų. Pasirink tą, kuria galvoji, ir šis puslapis taip pat persijungs į ją.",
+  "ln_es": "Ispanų",
+  "ln_en": "Anglų",
+  "ln_pl": "Lenkų",
+  "ln_uk": "Ukrainiečių",
+  "ln_lt": "Lietuvių",
+  "ln_so": "Somalių",
+  "end_h": "Pasakyk tai garsiai.\nNorvegija klausosi.",
+  "footer": "Heianorsk · sukurta Norvegijoje imigranto, imigrantams",
+  "f_privacy": "Privatumas",
+  "f_feedback": "Atsiliepimai",
+  "jab": [
+   "Ar dantų šepetėlis turi jausmų?",
+   "Atsiprašau, aš esu obuolys.",
+   "Meška geria pieną.",
+   "Valgau duoną ir verkiu ant grindų.",
+   "Vyras valgo ledus su garstyčiomis."
+  ],
+  "heard": [
+   [
+    "Autobusų stotelė, Bergenas",
+    "lyja, kaip gi kitaip",
+    "Tu, iš Sirijos",
+    "Tai kada gi ateis vasara? Spintoje laukia šortai.",
+    "Kaimynas, Bergeno tarme",
+    "Vasara buvo pernai, antradienį. Buvau darbe."
+   ],
+   [
+    "Vaiko pasiėmimas iš barnehage",
+    "viena raidė viską keičia",
+    "Tu, atėjai pasiimti sūnaus",
+    "Jis meldėsi už Olavą? Kaip miela!",
+    "Barnehage personalas",
+    "Ne, įkando. Dantimis. Į ranką."
+   ],
+   [
+    "Naudotas Volvo, Trondheimas",
+    "iš Finnes.no",
+    "Tu, perki",
+    "Graži mašina. Bet virš galinio rato rūdys.",
+    "Pardavėjas",
+    "Tai ne rūdys. Tai charakteris."
+   ],
+   [
+    "Kūčios, Bergenas",
+    "tu atnešei pončą",
+    "Tavo uošvė",
+    "O, pončas! Kaip... praktiška!",
+    "Tu, iš Kolumbijos",
+    "Praktiška? Tai gerai, ar taip sakoma apie negražius daiktus?"
+   ]
+  ],
+  "cards": [
+   [
+    "Vadovėlis, 1 skyrius",
+    "Viso gero, sėkmės.",
+    "",
+    "Iki! Pasikalbėsim!",
+    "Per petį, jau pusiau už durų."
+   ],
+   [
+    "Pasikalbėjimų knygelė",
+    "Kiek tai kainuoja?",
+    "",
+    "Kiek bus?",
+    "Prie kasos, su kortele rankoje. Kaina vis tiek rodoma ekrane."
+   ],
+   [
+    "Vadovėlis, 2 skyrius",
+    "Aš nesuprantu.",
+    "",
+    "Nesigaudau.",
+    "Forstå gyvena vadovėlyje. Skjønne gyvena ant liežuvio."
+   ],
+   [
+    "Uglingo, 3 pamoka",
+    "Meška geria pieną.",
+    "Norvegijoje to dar niekas niekada nėra pasakęs. Pabandyk:",
+    "Ar turi DonaldTrumpf kortelę?",
+    "Klausia prie kiekvienos kasos. Prie kiekvienos, be išimties."
+   ],
+   [
+    "Vadovėlis, 1 skyrius",
+    "Taip.",
+    "",
+    "Taip. Tęsk. Sutinku.",
+    "Greitas įkvėpimas. Gydytojo kviesti nereikia, tai tik pritarimas."
+   ],
+   [
+    "Kalbų programėlė",
+    "Buvo malonu susipažinti.",
+    "",
+    "Malonu!",
+    "Vienas žodis, spaudžiant ranką, iškart po vardų."
+   ],
+   [
+    "Pasikalbėjimų knygelė",
+    "Prašau.",
+    "",
+    "Galima bandelę, ačiū?",
+    "„Prašau“ dedamas gale ir skamba kaip takk. Vær så snill palik maldavimui."
+   ],
+   [
+    "Vadovėlis, 4 skyrius",
+    "Ačiū už maistą.",
+    "Čia vadovėlis pataikė.",
+    "Ačiū už maistą.",
+    "Sakyk tai po kiekvieno valgio. Kiekvieną kartą. Kas nors pastebės."
+   ]
+  ]
+ },
+ "so": {
+  "meta_title": "Heianorsk · Ku hadal af Noorwiiji dhab ah",
+  "meta_desc": "Ku hadal af Noorwiiji dhab ah, cod dheer. Muuqaallo gaagaaban oo nolosha dhabta ah, xiddigona lagu siiyo dhawaaqaaga, oo taleefankaaga lagu qiimeeyo. Waxaa lagu helaa af Isbaanish, Ingiriisi, Boolish, Yukreeniyaan, Lituweeniyaan iyo Soomaali.",
+  "nav_how": "Sida ay u shaqeyso",
+  "nav_listen": "Dhegeyso",
+  "nav_street": "Buugga iyo waddada",
+  "nav_langs": "Luqadaha",
+  "h1": "Baro waxa dadka Noorweey dhab ahaan yiraahdaan.",
+  "lead": "Muuqaallo gaagaaban oo nolosha dhabta ah: lacag-bixinta dukaanka, baska, dhakhtarka, dugnad. Cod dheer ayaad ku hadashaa, taleefankaaguna wuxuu ku siiyaa xiddigo dhawaaqaaga.",
+  "th_book": "Buuggu wuxuu leeyahay",
+  "th_norway": "Noorweey waxay leedahay",
+  "soon": "Dhowaan Google Play iyo App Store",
+  "alt_today": "Tabka Maanta oo leh muuqaalka xiga",
+  "alt_scene": "Muuqaal leh kaarka qofka",
+  "how_h": "Sida muuqaal u socdo.",
+  "s1_h": "Door ayaa lagu siiyaa.",
+  "s1_q": "Waxaad joogtaa foornada rootiga. Rooti ayaad rabtaa, rootiile-ha ayaana ku weydiinaya in la jarjaro iyo in kale.",
+  "s1_p": "Muuqaal kastaa waa xilli aad kula kulmi doonto Noorweey, laga bilaabo lacag-bixinta dukaanka ilaa shirka waalidiinta.",
+  "s2_h": "Adigaa dhaha. Cod dheer.",
+  "s2_p": "Jumladdaadu waxay ku qoran tahay shaashadda, macnaheeduna luqaddaada. Haddii aad rabto marka hore dhegeyso, kadib u dheh sidii aad halkaas ugu dhihi lahayd. Qoraal ma jiro, halxiraalayaal erayo ahna ma jiraan.",
+  "s3_h": "Taleefankaagu xiddigo ayuu ku siiyaa.",
+  "s3_stars": "saddex xiddigood",
+  "s3_p": "Nidaam cod-aqoonsi ah oo taleefankaaga ku jira ayaa ku siiya ilaa saddex xiddigood, wuxuuna kuu tilmaamaa dhawaaqyada muhiimka ah, sida takk iyo tak. Codkaagu weligiis kama baxo taleefanka.",
+  "s4_h": "Noorweey ayaa kuu jawaabta.",
+  "s4_p": "Qofka kale ayaa jawaaba, mararka qaarkood lahjad u gaar ah, muuqaalkuna wuu sii socdaa. Taabo jawaab si aad u aragto iyadoo qoran oo turjuman.",
+  "heard_h": "Laga maqlay\nNoorweey.",
+  "heard_p": "Afar xilli oo dhab ah oo app-ka laga soo qaaday, codadkooduna waa sida app-ka. Taabo jumladda koowaad, jawaabtuna way ku xigaysaa. Kadib isa sawir adigoo sidaas leh.",
+  "street_h": "Buugga\niyo waddada.",
+  "street_p": "Toban sano ayaan Noorweey joogay, qofna weligiis iima weydiin in orsadu caano cabto. Taabo kaar si aad u aragto waxa dadku dhab ahaan yiraahdaan.",
+  "tap_flip": "Taabo si aad u rogto",
+  "norway_says": "Noorweey waxay leedahay",
+  "fam_h": "Noorweey aad u egtahay mid aad taqaanno.",
+  "fam_p": "Dukaamada iyo app-yada muuqaallada ku jira waa ku-dayasho saaxiibtinimo, si aad ugu qososho lacag-bixinta intaadan halkaas gaarin.",
+  "langs_a": "Lagu sharaxay ",
+  "langs_word": "luqaddaada",
+  "langs_b": ".",
+  "langs_p": "Jumlad kastaa waxay la socotaa macnaheeda mid ka mid ah lix luqadood. Dooro tan aad ku fakarto, boggan ayaana sidoo kale u beddelmaya.",
+  "ln_es": "Isbaanish",
+  "ln_en": "Ingiriisi",
+  "ln_pl": "Boolish",
+  "ln_uk": "Yukreeniyaan",
+  "ln_lt": "Lituweeniyaan",
+  "ln_so": "Soomaali",
+  "end_h": "Cod dheer ku dheh.\nNoorweey way ku dhegeysanaysaa.",
+  "footer": "Heianorsk · waxaa Noorweey ku sameeyay muhaajir, waxaana loogu talagalay muhaajiriinta",
+  "f_privacy": "Asturnaanta",
+  "f_feedback": "Ra'yigaaga",
+  "jab": [
+   "Burushka ilkuhu dareen ma leeyahay?",
+   "Iga raali ahow, waxaan ahay tufaax.",
+   "Orsadu caano ayay cabtaa.",
+   "Rooti ayaan cunayaa, dhulkana waan ku ooyayaa.",
+   "Ninku jalaato ayuu khardal ku cunayaa."
+  ],
+  "heard": [
+   [
+    "Boosteejada baska, Bergen",
+    "roob, sida caadiga ah",
+    "Adiga, oo ka yimid Suuriya",
+    "Haddaba goorma ayuu xagaagu imanayaa? Surwaal gaaban ayaa armaajada iigu jira.",
+    "Deris, lahjadda Bergen",
+    "Xagaagu wuxuu ahaa sannadkii hore, maalin Talaado ah. Shaqo ayaan joogay."
+   ],
+   [
+    "Ka soo qaadista barnehage",
+    "hal xaraf ayaa wax walba beddela",
+    "Adiga, oo wiilkaaga soo qaadanaya",
+    "Ma u duceeyay Olav? Waa wax macaan!",
+    "Shaqaalaha barnehage",
+    "Maya, wuu qaniinay. Ilkihiisa. Gacanta."
+   ],
+   [
+    "Volvo la isticmaalay, Trondheim",
+    "laga helay Finnes.no",
+    "Adiga, oo iibsanaya",
+    "Waa qurux. Laakiin daxal ayaa ka saaran taayirka dambe.",
+    "Iibiyaha",
+    "Taasi daxal ma aha. Taasi waa dabeecad."
+   ],
+   [
+    "Habeenka Kirismaska, Bergen",
+    "poncho ayaad keentay",
+    "Soddohdaa",
+    "Oo, poncho! Waa wax... waxtar leh!",
+    "Adiga, oo ka yimid Kolombiya",
+    "Waxtar leh? Taasi ma wanaag baa, mise waa waxa laga yiraahdo waxyaabaha foosha xun?"
+   ]
+  ],
+  "cards": [
+   [
+    "Buugga waxbarashada, cutubka 1",
+    "Nabadgelyo, maalin wanaagsan.",
+    "",
+    "Nabadeey! Mar dambe ayaan hadlaynaa!",
+    "Garabka dushiisa, adigoo badhkaa albaabka ka baxay."
+   ],
+   [
+    "Buugga weedhaha",
+    "Immisa ayuu joogaa?",
+    "",
+    "Immisa ayay noqonaysaa?",
+    "Lacag-bixinta, kaarkuna gacanta. Qiimuhu sidaba shaashadda ayuu ku qoran yahay."
+   ],
+   [
+    "Buugga waxbarashada, cutubka 2",
+    "Ma fahmin.",
+    "",
+    "Waan garan waayay.",
+    "Forstå wuxuu ku nool yahay buugga. Skjønne wuxuu ku nool yahay afka."
+   ],
+   [
+    "Uglingo, casharka 3",
+    "Orsadu caano ayay cabtaa.",
+    "Qofna Noorweey weligiis sidan kuma odhan. Isku day:",
+    "Ma haysaa kaarka DonaldTrumpf?",
+    "Lacag-bixin kasta ayaa lagu weydiiyaa. Mid kasta, mid kasta."
+   ],
+   [
+    "Buugga waxbarashada, cutubka 1",
+    "Haa.",
+    "",
+    "Haa. Sii wad. Waan ku raacsanahay.",
+    "Neef degdeg ah oo gudaha loo qaato. Dhakhtar looma baahna, waa uun ogolaansho."
+   ],
+   [
+    "App luqadeed",
+    "Waan ku faraxsanahay inaan kula kulmay.",
+    "",
+    "Wanaagsan!",
+    "Hal eray, inta gacmaha la is qabanayo, isla markiiba magacyada kadib."
+   ],
+   [
+    "Buugga weedhaha",
+    "Fadlan.",
+    "",
+    "Ma heli karaa doolsho yar, mahadsanid?",
+    "Fadlan waxaa la dhahaa dhammaadka, wuxuuna u dhawaaqaa sida takk. Vær så snill waa marka aad baryayso."
+   ],
+   [
+    "Buugga waxbarashada, cutubka 4",
+    "Mahadsanid cuntada.",
+    "Kan buuggu wuu saxay.",
+    "Mahadsanid cuntada.",
+    "Dheh cunto kasta kadib. Mar kasta. Qof ayaa dareemi doona."
+   ]
+  ]
+ }
+};
+const LANGS = ['en', 'es', 'pl', 'uk', 'lt', 'so'];
+function detect() {
+  const q = new URLSearchParams(location.search).get('lang');
+  if (LANGS.includes(q)) return q;
+  try { const s = localStorage.getItem('lang'); if (LANGS.includes(s)) return s; } catch (e) {}
+  for (const l of navigator.languages || [navigator.language || '']) {
+    const c = String(l).toLowerCase().split('-')[0];
+    if (LANGS.includes(c)) return c;
+  }
+  return 'en';
+}
+let L = detect();
+if (!T[L]) L = 'en';
+const t = k => (T[L] && T[L][k] != null ? T[L][k] : T.en[k]);
+// "\n" in a text is a line break
+function put(el, s) {
+  el.textContent = '';
+  s.split('\n').forEach((part, k) => { if (k) el.appendChild(document.createElement('br')); el.appendChild(document.createTextNode(part)); });
+}
+
+const R = ['Hvordan går det?', 'Unnskyld, hvor er toalettet?', 'Kaffe med melk, takk.', 'Takk for maten!', 'Pølse med sennep, takk.'];
 const non = document.getElementById('non'), real = document.getElementById('real');
 let i = 0;
 const jab = document.querySelector('.jab');
 function round() {
-  const [a, b] = R[i++ % R.length];
+  const k = i++ % R.length;
   // the line and the answer vanish at once, with the new text; only drawing in is animated
   jab.classList.add('reset');
   non.style.setProperty('--s', 0); real.style.setProperty('--p', 0);
-  non.textContent = '«' + a + '»'; real.textContent = b;
+  non.textContent = '«' + t('jab')[k] + '»'; real.textContent = R[k];
   void jab.offsetWidth;
   jab.classList.remove('reset');
   setTimeout(() => non.style.setProperty('--s', 1), 900);
   setTimeout(() => real.style.setProperty('--p', 1), 1400);
   setTimeout(round, 4200);
 }
-round();
 
-// scenes: [where, aside, [file, who, norwegian, english, them?] x2]; *word* gets a highlighter mark
+// scenes: [file, norwegian] x2, the reply second unless marked; *word* gets a highlighter mark
 const X = [
-  ['Bus stop, Bergen', 'raining, obviously', [
-    ['sommer-l2', 'You, from Syria', 'Når kommer sommeren, da? Jeg har shorts i skapet.', 'So when does summer come? I have shorts in the wardrobe.'],
-    ['sommer-r2', 'A neighbour, in Bergen dialect', 'Sommeren va i fjor, på en *tirsdag*. Eg va på jobb.', 'Summer was last year, on a Tuesday. I was at work.', 1]]],
-  ['Barnehage pick-up', 'one letter matters', [
-    ['bet-l2', 'You, picking up your son', 'Bad han for Olav? Så søtt!', 'Did he pray for Olav? How sweet!'],
-    ['bet-r2', 'The barnehage staff', 'Nei, *bet*. Med tennene. I armen.', 'No, bit. With his teeth. On the arm.', 1]]],
-  ['A used Volvo, Trondheim', 'from Finnes.no', [
-    ['rust-l2', 'You, the buyer', 'Den er fin. Men det er rust over bakhjulet.', 'It is nice. But there is rust over the back wheel.'],
-    ['rust-r2', 'The seller', 'Det er ikke rust. Det er *karakter*.', 'That is not rust. That is character.', 1]]],
-  ['Christmas Eve, Bergen', 'you brought a poncho', [
-    ['praktisk-r1', 'Your mother-in-law', 'Å, en poncho! Så *praktisk*, då!', 'Oh, a poncho! How... practical!', 1],
-    ['praktisk-l2', 'You, from Colombia', 'Praktisk? Er det bra, eller sier man det om stygge ting?', 'Practical? Is that good, or is it what you say about ugly things?']]],
+  [['sommer-l2', 'Når kommer sommeren, da? Jeg har shorts i skapet.'], ['sommer-r2', 'Sommeren va i fjor, på en *tirsdag*. Eg va på jobb.', 1]],
+  [['bet-l2', 'Bad han for Olav? Så søtt!'], ['bet-r2', 'Nei, *bet*. Med tennene. I armen.', 1]],
+  [['rust-l2', 'Den er fin. Men det er rust over bakhjulet.'], ['rust-r2', 'Det er ikke rust. Det er *karakter*.', 1]],
+  [['praktisk-r1', 'Å, en poncho! Så *praktisk*, då!', 1], ['praktisk-l2', 'Praktisk? Er det bra, eller sier man det om stygge ting?']],
 ];
 const ICON = '<svg class="pl" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9.5-5.5z" fill="currentColor"/></svg><svg class="pa" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>';
 const box = document.getElementById('exs');
@@ -354,55 +1251,87 @@ function play(b, a, next) {
   a.currentTime = 0; a.play().catch(() => {}); b.classList.add('on'); cur = { a, b };
   a.onended = () => { b.classList.remove('on'); if (cur && cur.a === a) cur = null; if (next) next(); };
 }
-for (const [where, aside, lines] of X) {
-  const ex = document.createElement('article'); ex.className = 'ex taped';
-  const h = document.createElement('p'); h.className = 'where'; h.textContent = where + ' ';
-  const s = document.createElement('span'); s.textContent = aside; h.appendChild(s); ex.appendChild(h);
-  const btns = lines.map(([file, who, no, en, them]) => {
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'ln' + (them ? ' them' : '');
-    b.innerHTML = '<span class="ic">' + ICON + '</span><span class="who"></span><span class="no" lang="nb"></span><span class="en"></span>';
-    b.querySelector('.who').textContent = who; b.querySelector('.en').textContent = en;
-    no.split('*').forEach((part, k) => {
-      const n = k % 2 ? document.createElement('mark') : document.createTextNode(part);
-      if (k % 2) n.textContent = part;
-      b.querySelector('.no').appendChild(n);
+function scenes() {
+  stop(); box.textContent = '';
+  X.forEach((lines, n) => {
+    const [where, aside, ...said] = t('heard')[n];
+    const ex = document.createElement('article'); ex.className = 'ex taped';
+    const h = document.createElement('p'); h.className = 'where'; h.textContent = where + ' ';
+    const s = document.createElement('span'); s.textContent = aside; h.appendChild(s); ex.appendChild(h);
+    const btns = lines.map(([file, no, them], j) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'ln' + (them ? ' them' : '');
+      b.innerHTML = '<span class="ic">' + ICON + '</span><span class="who"></span><span class="no" lang="nb"></span><span class="en"></span>';
+      b.querySelector('.who').textContent = said[j * 2]; b.querySelector('.en').textContent = said[j * 2 + 1];
+      no.split('*').forEach((part, k) => {
+        const m = k % 2 ? document.createElement('mark') : document.createTextNode(part);
+        if (k % 2) m.textContent = part;
+        b.querySelector('.no').appendChild(m);
+      });
+      const a = new Audio(); a.preload = 'none'; a.src = 'audio/' + file + '.m4a';
+      ex.appendChild(b);
+      return [b, a];
     });
-    const a = new Audio(); a.preload = 'none'; a.src = 'audio/' + file + '.m4a';
-    ex.appendChild(b);
-    return [b, a];
+    // the first line hands over to the reply, so the joke lands
+    btns[0][0].onclick = () => play(btns[0][0], btns[0][1], () => play(btns[1][0], btns[1][1]));
+    btns[1][0].onclick = () => play(btns[1][0], btns[1][1]);
+    box.appendChild(ex);
   });
-  // the first line hands over to the reply, so the joke lands
-  btns[0][0].onclick = () => play(btns[0][0], btns[0][1], () => play(btns[1][0], btns[1][1]));
-  btns[1][0].onclick = () => play(btns[1][0], btns[1][1]);
-  box.appendChild(ex);
 }
-// flip cards: [source, book, meaning, intro, real, meaning, context]
+
+// flip cards: [book, real] in Norwegian; the rest comes from the texts
 const C = [
-  ['Textbook, chapter 1', 'Ha det bra!', 'Goodbye, have a good one.', '', 'Ha det! Snakkes!', 'Bye! Talk soon!', 'Over your shoulder, already halfway out the door.'],
-  ['Phrasebook', 'Hvor mye koster det?', 'How much does it cost?', '', 'Hva blir det?', 'What does it come to?', 'At the till, card in hand. The price is on the screen anyway.'],
-  ['Textbook, chapter 2', 'Jeg forstår ikke.', 'I do not understand.', '', "Skjønner'ke.", "Don't get it.", 'Forstå lives in the book. Skjønne lives in the mouth.'],
-  ['Uglingo, lesson 3', 'Bjørnen drikker melk.', 'The bear drinks milk.', 'Nobody in Norway has ever said this. Try:', 'Har du DonaldTrumpf-kort?', 'Do you have a DonaldTrumpf card?', 'Asked at every checkout. Every single one.'],
-  ['Textbook, chapter 1', 'Ja.', 'Yes.', '', '*ja* (inhaled)', 'Yes. Go on. I agree.', 'A quick gasp inwards. Not a medical event, just agreement.'],
-  ['Language app', 'Det var hyggelig å møte deg.', 'It was nice to meet you.', '', 'Hyggelig!', 'Nice!', 'One word, mid-handshake, right after the names.'],
-  ['Phrasebook', 'Vær så snill.', 'Please.', '', 'Kan jeg få en bolle, takk?', 'Can I get a bun, thanks?', 'Please goes at the end and sounds like takk. Vær så snill is for begging.'],
-  ['Textbook, chapter 4', 'Takk for maten.', 'Thanks for the food.', 'The book got this one right.', 'Takk for maten.', 'Thanks for the food.', 'Say it after every meal. Every time. Someone will notice.'],
+  ['Ha det bra!', 'Ha det! Snakkes!'],
+  ['Hvor mye koster det?', 'Hva blir det?'],
+  ['Jeg forstår ikke.', "Skjønner'ke."],
+  ['Bjørnen drikker melk.', 'Har du DonaldTrumpf-kort?'],
+  ['Ja.', '*ja*'],
+  ['Det var hyggelig å møte deg.', 'Hyggelig!'],
+  ['Vær så snill.', 'Kan jeg få en bolle, takk?'],
+  ['Takk for maten.', 'Takk for maten.'],
 ];
 const deck = document.getElementById('cards'), say = document.getElementById('flipsay');
-for (const [src, bk, bkEn, pre, rl, rlEn, ctx] of C) {
-  const b = document.createElement('button'); b.type = 'button'; b.className = 'flip'; b.setAttribute('aria-pressed', 'false');
-  b.innerHTML = '<span class="in"><span class="face front"><span class="src"></span><span class="no" lang="nb"></span><span class="en"></span><span class="tap">Tap to flip</span></span>'
-    + '<span class="face back" aria-hidden="true"><span class="src">Norway says</span><span class="pre"></span><span class="no" lang="nb"></span><span class="en"></span><span class="ctx"></span></span></span>';
-  const f = b.querySelector('.front'), k = b.querySelector('.back');
-  f.querySelector('.src').textContent = src; f.querySelector('.no').textContent = bk; f.querySelector('.en').textContent = bkEn;
-  if (pre) k.querySelector('.pre').textContent = pre; else k.querySelector('.pre').remove();
-  k.querySelector('.no').textContent = rl; k.querySelector('.en').textContent = rlEn; k.querySelector('.ctx').textContent = ctx;
-  b.onclick = () => {
-    const on = b.getAttribute('aria-pressed') !== 'true';
-    b.setAttribute('aria-pressed', on); f.setAttribute('aria-hidden', on); k.setAttribute('aria-hidden', !on);
-    say.textContent = on ? (pre ? pre + ' ' : '') + rl + ' ' + rlEn + ' ' + ctx : bk + ' ' + bkEn;
-  };
-  deck.appendChild(b);
+function cards() {
+  deck.textContent = '';
+  C.forEach(([bk, rl], n) => {
+    const [src, bkEn, pre, rlEn, ctx] = t('cards')[n];
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'flip'; b.setAttribute('aria-pressed', 'false');
+    b.innerHTML = '<span class="in"><span class="face front"><span class="src"></span><span class="no" lang="nb"></span><span class="en"></span><span class="tap"></span></span>'
+      + '<span class="face back" aria-hidden="true"><span class="src"></span><span class="pre"></span><span class="no" lang="nb"></span><span class="en"></span><span class="ctx"></span></span></span>';
+    const f = b.querySelector('.front'), k = b.querySelector('.back');
+    f.querySelector('.src').textContent = src; f.querySelector('.no').textContent = bk; f.querySelector('.en').textContent = bkEn;
+    f.querySelector('.tap').textContent = t('tap_flip'); k.querySelector('.src').textContent = t('norway_says');
+    if (pre) k.querySelector('.pre').textContent = pre; else k.querySelector('.pre').remove();
+    k.querySelector('.no').textContent = rl; k.querySelector('.en').textContent = rlEn; k.querySelector('.ctx').textContent = ctx;
+    b.onclick = () => {
+      const on = b.getAttribute('aria-pressed') !== 'true';
+      b.setAttribute('aria-pressed', on); f.setAttribute('aria-hidden', on); k.setAttribute('aria-hidden', !on);
+      say.textContent = on ? (pre ? pre + ' ' : '') + rl + ' ' + rlEn + ' ' + ctx : bk + ' ' + bkEn;
+    };
+    deck.appendChild(b);
+  });
 }
+
+const picks = document.querySelectorAll('#langpick .lang');
+function apply(code) {
+  L = code;
+  document.documentElement.lang = code;
+  document.title = t('meta_title');
+  document.querySelector('meta[name="description"]').content = t('meta_desc');
+  document.querySelectorAll('[data-i]').forEach(el => put(el, t(el.dataset.i)));
+  document.querySelectorAll('[data-ia]').forEach(el => { el.alt = t(el.dataset.ia); });
+  document.querySelectorAll('[data-il]').forEach(el => el.setAttribute('aria-label', t(el.dataset.il)));
+  document.getElementById('chip').textContent = code.toUpperCase();
+  document.getElementById('chip').setAttribute('aria-label', t('nav_langs'));
+  picks.forEach(b => b.setAttribute('aria-pressed', b.dataset.l === code));
+  scenes(); cards();
+}
+picks.forEach(b => b.onclick = () => {
+  try { localStorage.setItem('lang', b.dataset.l); } catch (e) {}
+  if (new URLSearchParams(location.search).has('lang')) history.replaceState(null, '', location.pathname + location.hash);
+  apply(b.dataset.l);
+});
+apply(L);
+round();
 </script>
 </body>
 </html>
