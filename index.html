@@ -56,8 +56,8 @@ header.hero { background: var(--accent); color: #fff; padding: 28px 0 0; overflo
 h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
 .jab { min-height: 104px; display: grid; gap: 12px; justify-items: start; margin-top: 34px; }
 .nonsense { font-size: 19px; opacity: .8; position: relative; font-style: italic; }
-.nonsense::after { content: ""; position: absolute; left: -2px; right: -2px; top: 50%; height: 3px; margin-top: -1px; border-radius: 2px; background: var(--red); transform-origin: left; transform: scaleX(var(--s, 0)); transition: transform .45s ease-out; }
-.jab.reset .nonsense::after, .jab.reset .real { transition: none; }
+.nonsense span { background: linear-gradient(var(--red), var(--red)) no-repeat 0 58% / calc(var(--s, 0) * 100%) 3px; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size .45s ease-out; padding: 0 2px; }
+.jab.reset .nonsense span, .jab.reset .real { transition: none; }
 .real { background: var(--cta); color: #fff; font-family: var(--display); font-size: clamp(20px, 2.6vw, 26px); padding: 8px 18px 9px; border-radius: 6px;
   box-shadow: 3px 3px 0 rgba(0,0,0,.35); transform: rotate(-3deg) scale(var(--p, 0)); transition: transform .45s cubic-bezier(.3,1.7,.5,1); }
 .lead { font-size: 20px; max-width: 36ch; margin: 26px 0 0; opacity: .95; }
@@ -139,6 +139,7 @@ h1 { font-size: clamp(40px, 6.2vw, 78px); line-height: .95; }
   .says, .says tbody, .says tr, .says td { display: block; width: auto; }
   .says tr { padding: 8px 0; border-top: 1px solid rgba(255,255,255,.18); }
   .says td { border: 0; padding: 0; }
+  .says .bk { width: auto; }
   .says .rl::before { content: "\2192\00a0"; opacity: .6; font-weight: 400; }
 }
 
@@ -1223,7 +1224,7 @@ function round() {
   // the line and the answer vanish at once, with the new text; only drawing in is animated
   jab.classList.add('reset');
   non.style.setProperty('--s', 0); real.style.setProperty('--p', 0);
-  non.textContent = '«' + t('jab')[k] + '»'; real.textContent = R[k];
+  const w = document.createElement('span'); w.textContent = '«' + t('jab')[k] + '»'; non.replaceChildren(w); real.textContent = R[k];
   void jab.offsetWidth;
   jab.classList.remove('reset');
   setTimeout(() => non.style.setProperty('--s', 1), 900);
